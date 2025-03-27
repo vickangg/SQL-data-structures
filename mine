@@ -1,0 +1,12 @@
+void readIn(){
+    string command;
+
+    do{
+        if(cin.fail()){
+            cerr << "Error: Reading from cin has failed" << endl;
+            exit(1);
+        }
+        cout << "% ";
+        cin >> command;
+    } while(command != "QUIT");
+}
