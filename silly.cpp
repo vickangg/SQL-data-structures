@@ -48,7 +48,6 @@ struct printTable
 class Silly
 {
 public:
-    /*****************VARIABLES********************/
     bool quiet = false;
     string errorJunk;
     unordered_map<string, Table> database;
@@ -59,11 +58,9 @@ public:
         cout << "Usage: " << command << "  -h | -q\n";
     } // printHelp()
 
-    /*****************GETMODE**********************/
-
     void getMode(int argc, char *argv[])
     {
-        opterr = false; // Let us handle all error output for command line options
+        opterr = false;
         int choice;
         int option_index = 0;
         option long_options[] = {
@@ -126,17 +123,14 @@ public:
                 }
             }
 
-            // Second loop: Read column names and associate with column types
             for (uint16_t i = 0; i < creation.N; ++i)
             {
                 string colname;
-                cin >> colname; // Read column name
+                cin >> colname;
 
-                // Store column name and its corresponding type in the coltypes map
                 creation.colnames[i] = colname;
             }
 
-            // Store the table in the database
             database[creation.tablename] = creation;
 
             cout << "New table " << creation.tablename << " with column(s) ";
@@ -175,28 +169,21 @@ public:
     {
         string insertTable;
         uint32_t rows;
-        string junk; // Used for reading non-value data (e.g., 'insert')
+        string junk;
 
-        // Read the first line: tablename and the number of rows to insert
         cin >> junk >> insertTable >> rows >> junk;
 
-        // Check if the table exists in the database
         if (database.find(insertTable) != database.end())
         {
-            // Resize the rows vector to accommodate the new rows
             database[insertTable].rows.reserve(database[insertTable].rows.size() + rows);
 
-            // Loop over the number of rows to be inserted
             for (uint32_t i = 0; i < rows; i++)
             {
                 vector<variant<int, double, bool, string>> newRow;
 
-                // Loop over each column in the table to insert the correct value type
                 for (uint32_t j = 0; j < database[insertTable].colnames.size(); j++)
                 {
-                    // Variable to hold the value for this column in the current row
                     string value;
-                    // Based on the column type, read the appropriate value
                     switch (database[insertTable].coltypes[j])
                     {
                     case ColumnType::String:
@@ -229,7 +216,6 @@ public:
                     }
                 }
 
-                // After reading all the columns for the current row, add it to the table's rows
                 database[insertTable].rows.push_back(newRow);
             }
         }
@@ -237,24 +223,20 @@ public:
         else
         {
             cout << "Error during INSERT: " << insertTable << " does not name a table in the database\n";
-            // Error during <COMMAND>: <tablename> does not name a table in the database
             getline(cin, errorJunk);
             return;
         }
         cout << "Added " << rows << " rows to " << database[insertTable].tablename << " from position " << database[insertTable].currentIndex << " to ";
         database[insertTable].currentIndex += rows - 1;
         cout << database[insertTable].currentIndex << "\n";
-        /// Added <N> rows to <tablename> from position <startN> to <endN>
     }
 
-    // PRINT implementation
     void print()
     {
         string printName;
         uint32_t numCols;
         cin >> command >> printName >> numCols;
 
-        // Check if table exists
         if (database.find(printName) == database.end())
         {
             cout << "Error during PRINT: " << printName << " does not name a table in the database\n";
@@ -265,7 +247,6 @@ public:
         Table &table = database[printName];
         printTable columnsToPrint;
 
-        // Read and validate columns to print
         for (uint32_t i = 0; i < numCols; i++)
         {
             cin >> command;
@@ -281,7 +262,6 @@ public:
             columnsToPrint.printColTypes.push_back(table.coltypes[colIndex]);
         }
 
-        // Read WHERE/ALL clause
         cin >> command;
         vector<uint32_t> rowsToPrint;
 
@@ -290,7 +270,6 @@ public:
             string colname, op, valueStr;
             cin >> colname >> op >> valueStr;
 
-            // Validate column
             auto colIt = find(table.colnames.begin(), table.colnames.end(), colname);
             if (colIt == table.colnames.end())
             {
@@ -301,7 +280,6 @@ public:
             size_t condColIndex = static_cast<size_t>(distance(table.colnames.begin(), colIt));
             ColumnType condColType = table.coltypes[condColIndex];
 
-            // Convert value to correct type
             variant<int, double, bool, string> value;
             try
             {
@@ -331,12 +309,9 @@ public:
             }
             catch (...)
             {
-                cout << "Error: unrecognized command\n";
-                getline(cin, command);
                 return;
             }
 
-            // Find matching rows using index if available
             if (table.indexedColumn == colname)
             {
                 if (table.indexType == "hash")
@@ -358,7 +333,6 @@ public:
             }
             else
             {
-                // No index - linear search
                 for (uint32_t i = 0; i < table.rows.size(); i++)
                 {
                     auto &rowVal = table.rows[i][condColIndex];
@@ -386,32 +360,24 @@ public:
         }
         else if (command == "ALL")
         {
-            // All rows in insertion order
             for (uint32_t i = 0; i < table.rows.size(); i++)
             {
                 rowsToPrint.push_back(i);
             }
         }
-        else
-        {
-            cout << "Error: unrecognized command\n";
-            getline(cin, command);
-            return;
-        }
 
-        // Print results
         if (!quiet)
         {
-            // Print header
             for (uint32_t i = 0; i < columnsToPrint.printColNames.size(); i++)
             {
                 if (i != 0)
+                {
                     cout << " ";
-                cout << columnsToPrint.printColNames[i];
+                    cout << columnsToPrint.printColNames[i];
+                }
             }
             cout << "\n";
 
-            // Print rows
             for (uint32_t rowIdx : rowsToPrint)
             {
                 auto &row = table.rows[rowIdx];
@@ -433,13 +399,11 @@ public:
         cout << "Printed " << rowsToPrint.size() << " matching rows from " << printName << "\n";
     }
 
-    // DELETE implementation
     void deleteRow()
     {
         string tableName, colname, op, valueStr;
         cin >> command >> tableName >> command >> colname >> op >> valueStr;
 
-        // Check table exists
         if (database.find(tableName) == database.end())
         {
             cout << "Error during DELETE: " << tableName << " does not name a table in the database\n";
@@ -449,7 +413,6 @@ public:
 
         Table &table = database[tableName];
 
-        // Check column exists
         auto colIt = find(table.colnames.begin(), table.colnames.end(), colname);
         if (colIt == table.colnames.end())
         {
@@ -460,7 +423,6 @@ public:
         size_t condColIndex = static_cast<size_t>(distance(table.colnames.begin(), colIt));
         ColumnType condColType = table.coltypes[condColIndex];
 
-        // Convert value to correct type
         variant<int, double, bool, string> value;
         try
         {
@@ -482,12 +444,9 @@ public:
         }
         catch (...)
         {
-            cout << "Error: unrecognized command\n";
-            getline(cin, command);
             return;
         }
 
-        // Find rows to delete
         vector<uint32_t> rowsToDelete;
         if (table.indexedColumn == colname)
         {
@@ -510,7 +469,6 @@ public:
         }
         else
         {
-            // Linear search
             for (uint32_t i = 0; i < table.rows.size(); i++)
             {
                 auto &rowVal = table.rows[i][condColIndex];
@@ -528,14 +486,12 @@ public:
             }
         }
 
-        // Delete rows (from back to front to preserve indices)
         sort(rowsToDelete.rbegin(), rowsToDelete.rend());
         for (uint32_t rowIdx : rowsToDelete)
         {
             table.rows.erase(table.rows.begin() + rowIdx);
         }
 
-        // Update index if needed
         if (!table.indexedColumn.empty())
         {
             buildIndex(table);
@@ -544,13 +500,11 @@ public:
         cout << "Deleted " << rowsToDelete.size() << " rows from " << tableName << "\n";
     }
 
-    // JOIN implementation
     void join()
     {
         string table1, table2, col1, col2;
         cin >> table1 >> command >> table2 >> command >> col1 >> command >> col2 >> command;
 
-        // Check tables exist
         if (database.find(table1) == database.end())
         {
             cout << "Error during JOIN: " << table1 << " does not name a table in the database\n";
@@ -567,7 +521,6 @@ public:
         Table &t1 = database[table1];
         Table &t2 = database[table2];
 
-        // Check columns exist
         auto col1It = find(t1.colnames.begin(), t1.colnames.end(), col1);
         if (col1It == t1.colnames.end())
         {
@@ -586,11 +539,10 @@ public:
         }
         size_t col2Idx = static_cast<size_t>(distance(t2.colnames.begin(), col2It));
 
-        // Read PRINT columns
         uint32_t numPrintCols;
         cin >> command >> numPrintCols;
 
-        vector<pair<string, uint32_t>> printColumns; // column name and table number (1 or 2)
+        vector<pair<string, uint32_t>> printColumns;
         for (uint32_t i = 0; i < numPrintCols; i++)
         {
             string colName;
@@ -617,53 +569,128 @@ public:
                     return;
                 }
             }
-            else
-            {
-                cout << "Error during JOIN: invalid table number\n";
-                getline(cin, command);
-                return;
-            }
             printColumns.emplace_back(colName, tableNum);
         }
 
-        // Perform join
         vector<vector<string>> outputRows;
 
-        for (auto &row1 : t1.rows)
+        for (const auto &row1 : t1.rows)
         {
-            auto &val1 = row1[col1Idx];
+            const auto &val1 = row1[col1Idx];
 
-            for (auto &row2 : t2.rows)
+            for (const auto &row2 : t2.rows)
             {
-                auto &val2 = row2[col2Idx];
+                const auto &val2 = row2[col2Idx];
 
-                if (val1 == val2)
+                bool is_equal = false;
+
+                try
+                {
+                    int i1 = std::get<int>(val1);
+                    int i2 = std::get<int>(val2);
+                    is_equal = (i1 == i2);
+                }
+                catch (...)
+                {
+                }
+
+                if (!is_equal)
+                {
+                    try
+                    {
+                        double d1 = std::get<double>(val1);
+                        double d2 = std::get<double>(val2);
+                        is_equal = (d1 == d2);
+                    }
+                    catch (...)
+                    {
+                    }
+                }
+
+                if (!is_equal)
+                {
+                    try
+                    {
+                        bool b1 = std::get<bool>(val1);
+                        bool b2 = std::get<bool>(val2);
+                        is_equal = (b1 == b2);
+                    }
+                    catch (...)
+                    {
+                    }
+                }
+
+                if (!is_equal)
+                {
+                    try
+                    {
+                        string s1 = std::get<string>(val1);
+                        string s2 = std::get<string>(val2);
+                        is_equal = (s1 == s2);
+                    }
+                    catch (...)
+                    {
+                    }
+                }
+
+                if (is_equal)
                 {
                     vector<string> outputRow;
-                    for (auto &[colName, tableNum] : printColumns)
-                    {
-                        Table &t = (tableNum == 1) ? t1 : t2;
-                        auto it = find(t.colnames.begin(), t.colnames.end(), colName);
-                        size_t colIdx = static_cast<size_t>(distance(t.colnames.begin(), it));
 
-                        auto &row = (tableNum == 1) ? row1 : row2;
+                    for (const auto &[colName, tableNum] : printColumns)
+                    {
+                        const Table &t = (tableNum == 1) ? t1 : t2;
+
+                        size_t colIdx = 0;
+                        for (; colIdx < t.colnames.size(); ++colIdx)
+                        {
+                            if (t.colnames[colIdx] == colName)
+                                break;
+                        }
+
+                        const auto &cell = (tableNum == 1) ? row1[colIdx] : row2[colIdx];
                         string valStr;
-                        visit([&](const auto &v)
-                              { 
-                        ostringstream oss;
-                        oss << v;
-                        valStr = oss.str(); }, row[colIdx]);
+
+                        try
+                        {
+                            valStr = std::to_string(std::get<int>(cell));
+                        }
+                        catch (...)
+                        {
+                            try
+                            {
+                                valStr = std::to_string(std::get<double>(cell));
+                            }
+                            catch (...)
+                            {
+                                try
+                                {
+                                    valStr = std::get<bool>(cell) ? "true" : "false";
+                                }
+                                catch (...)
+                                {
+                                    try
+                                    {
+                                        valStr = std::get<string>(cell);
+                                    }
+                                    catch (...)
+                                    {
+                                        valStr = "ERROR";
+                                    }
+                                }
+                            }
+                        }
+
                         outputRow.push_back(valStr);
                     }
+
                     outputRows.push_back(outputRow);
                 }
             }
         }
 
-        // Print results
         if (!quiet)
         {
-            // Print header
             for (uint32_t i = 0; i < printColumns.size(); i++)
             {
                 if (i != 0)
@@ -672,7 +699,6 @@ public:
             }
             cout << "\n";
 
-            // Print rows
             for (auto &row : outputRows)
             {
                 for (uint32_t i = 0; i < row.size(); i++)
@@ -688,7 +714,6 @@ public:
         cout << "Printed " << outputRows.size() << " rows from joining " << table1 << " to " << table2 << "\n";
     }
 
-    // Helper function to build index
     void buildIndex(Table &table)
     {
         if (table.indexedColumn.empty())
@@ -717,13 +742,11 @@ public:
         }
     }
 
-    // GENERATE implementation
     void userGenerate()
     {
         string tableName, indexType, colName;
         cin >> command >> tableName >> indexType >> command >> command >> colName;
 
-        // Check table exists
         if (database.find(tableName) == database.end())
         {
             cout << "Error during GENERATE: " << tableName << " does not name a table in the database\n";
@@ -733,7 +756,6 @@ public:
 
         Table &table = database[tableName];
 
-        // Check column exists
         auto colIt = find(table.colnames.begin(), table.colnames.end(), colName);
         if (colIt == table.colnames.end())
         {
@@ -741,26 +763,14 @@ public:
             getline(cin, command);
             return;
         }
-        // size_t colIdx = distance(table.colnames.begin(), colIt);
 
-        // Check index type is valid
-        if (indexType != "hash" && indexType != "bst")
-        {
-            cout << "Error: unrecognized command\n";
-            getline(cin, command);
-            return;
-        }
-
-        // Clear old index and set new one
         table.indexedColumn = colName;
         table.indexType = indexType;
         table.hashIndex.clear();
         table.bstIndex.clear();
 
-        // Build the index
         buildIndex(table);
 
-        // Count distinct keys
         size_t distinctKeys = 0;
         if (indexType == "hash")
         {
@@ -796,7 +806,7 @@ public:
                 cout << "Thanks for being silly!" << endl;
                 return;
             }
-            else if (command == "#")
+            else if (command.at(0) == '#')
             {
                 getline(cin, command);
             }
@@ -824,7 +834,8 @@ public:
             {
                 userGenerate();
             }
-            else {
+            else
+            {
                 cout << "Error: unrecognized command" << endl;
             }
         } while (command != "QUIT");
