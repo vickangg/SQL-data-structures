@@ -3,11 +3,11 @@
 % Deleted 2 rows from 281class
 % Generated hash index for table 281class on column emotion, with 4 distinct keys
 % person emotion 
-office_hours busy
-students stressed
-Paoletti stressed
-Sith happy
-Sith victorious
+office_hours busy 
+students stressed 
+Paoletti stressed 
+Sith happy 
+Sith victorious 
 Printed 5 matching rows from 281class
 % New table pets with column(s) Name likes_cats? likes_dogs? created
 % Added 2 rows to pets from position 0 to 1

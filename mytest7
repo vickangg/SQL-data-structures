@@ -2,7 +2,7 @@
 % Added 8 rows to 281class from position 0 to 7
 % Deleted 1 rows from 281class
 % Generated bst index for table 281class on column Y/N, with 1 distinct keys
-% Generated hash index for table 281class on column Y/N, with 1 distinct keys
+% Generated hash index for table 281class on column emotion, with 4 distinct keys
 % person emotion 
 Zo happy
 Darden happy

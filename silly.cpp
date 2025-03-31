@@ -29,10 +29,10 @@ struct Table
     vector<vector<variant<int, double, bool, string>>> rows;
     uint32_t currentIndex = 0;
 
-    unordered_map<variant<int, double, bool, string>, vector<uint32_t>> hashIndex;                  // hash index
-    map<variant<int, double, bool, string>, vector<uint32_t>> bstIndex; // bst index
-    string indexedColumn;                                               // name of column that's indexed
-    string indexType;                                                   // "hash" or "bst" or empty
+    unordered_map<variant<int, double, bool, string>, vector<uint32_t>> hashIndex; // hash index
+    map<variant<int, double, bool, string>, vector<uint32_t>> bstIndex;            // bst index
+    string indexedColumn;                                                          // name of column that's indexed
+    string indexType;                                                              // "hash" or "bst" or empty
 };
 
 struct printTable
@@ -311,24 +311,64 @@ public:
 
             if (table.indexedColumn == colname)
             {
-                if (table.indexType == "hash")
-                {
-                    auto it = table.hashIndex.find(get<string>(value));
-                    if (it != table.hashIndex.end())
+                if (op == "=")
                     {
-                        rowsToPrint = it->second;
+                        auto it = table.hashIndex.find(value);
+                        if (it != table.hashIndex.end())
+                        {
+                            rowsToPrint = it->second;
+                        }
                     }
+                    else if (op == ">") {
+                        for (const auto& [key, rowIndices] : table.hashIndex) {
+                            // Convert key and value to comparable types (e.g., string, int, double)
+                            if (key > value) {  // Lexicographical or numeric comparison
+                                rowsToPrint.insert(rowsToPrint.end(), rowIndices.begin(), rowIndices.end());
+                            }
+                        }
+                    }
+                    
+                    else if (op == "<") {
+                        for (const auto& [key, rowIndices] : table.hashIndex) {
+                            if (key < value) {  // Lexicographical or numeric comparison
+                                rowsToPrint.insert(rowsToPrint.end(), rowIndices.begin(), rowIndices.end());
+                            }
+                        }
+                    }
+                    sort(rowsToPrint.begin(), rowsToPrint.end());
                 }
+
                 else if (table.indexType == "bst")
                 {
-                    auto it = table.bstIndex.find(value);
-                    if (it != table.bstIndex.end())
+                    if (op == "=")
                     {
-                        rowsToPrint = it->second;
+                        auto it = table.bstIndex.find(value);
+                        if (it != table.bstIndex.end())
+                        {
+                            rowsToPrint = it->second;
+                        }
+                    }
+                    else if (op == ">")
+                    {
+                        for (auto it = table.bstIndex.upper_bound(value);
+                             it != table.bstIndex.end(); ++it)
+                        {
+                            rowsToPrint.insert(rowsToPrint.end(),
+                                               it->second.begin(), it->second.end());
+                        }
+                    }
+                    else if (op == "<")
+                    {
+                        for (auto it = table.bstIndex.begin();
+                             it != table.bstIndex.lower_bound(value); ++it)
+                        {
+                            rowsToPrint.insert(rowsToPrint.end(),
+                                               it->second.begin(), it->second.end());
+                        }
                     }
                 }
-            }
-            
+
+
             else
             {
                 for (uint32_t i = 0; i < table.rows.size(); i++)
@@ -355,7 +395,6 @@ public:
                     }
                 }
             }
-                
         }
         else if (command == "ALL")
         {
@@ -374,30 +413,23 @@ public:
             }
             cout << "\n";
 
-            for (uint32_t rowIdx : rowsToPrint) {
-                // Get the current row
-                const auto& row = table.rows[rowIdx];  // row is a vector<Cell>
-            
-                // Iterate over columns to print
-                for (size_t colIdx = 0; colIdx < columnsToPrint.printColNames.size(); colIdx++) {
-                    // Find the column index for the current column name
+            for (uint32_t rowIdx : rowsToPrint)
+            {
+                const auto &row = table.rows[rowIdx];
+
+                for (size_t colIdx = 0; colIdx < columnsToPrint.printColNames.size(); colIdx++)
+                {
                     auto it = find(table.colnames.begin(), table.colnames.end(),
                                    columnsToPrint.printColNames[colIdx]);
                     size_t actualColIdx = static_cast<size_t>(distance(table.colnames.begin(), it));
-            
-                    // Print a space between columns (except the first one)
-                    if (colIdx != 0) {
-                        cout << " ";
-                    }
-            
-                    // Print the cell at [rowIdx][actualColIdx]
-                    visit([](const auto& val) { cout << val; }, row[actualColIdx]);
+
+                    visit([](const auto &val)
+                          { cout << val << " "; }, row[actualColIdx]);
                 }
-            
-                // Newline after each row
+
                 cout << "\n";
             }
-    }
+        }
 
         cout << "Printed " << rowsToPrint.size() << " matching rows from " << printName << "\n";
     }
