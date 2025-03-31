@@ -1,16 +1,11 @@
 // PROJECT IDENTIFIER: C0F4DFE8B340D81183C208F70F9D2D797908754D
 
 #include <algorithm>
-#include <deque>
 #include <iostream>
 #include <map>
-#include <queue>
-#include <set>
-#include <string>
-#include <utility>
 #include <vector>
+#include <string>
 #include <unordered_map>
-#include <unordered_set>
 #include <getopt.h>
 #include <sstream>
 
@@ -370,27 +365,49 @@ public:
         {
             for (uint32_t i = 0; i < columnsToPrint.printColNames.size(); i++)
             {
-                if (i != 0)
-                {
-                    cout << " ";
                     cout << columnsToPrint.printColNames[i];
-                }
+                    cout << " ";
             }
             cout << "\n";
 
-            for (uint32_t rowIdx : rowsToPrint)
-            {
+            for (uint32_t rowIdx : rowsToPrint) {
                 auto &row = table.rows[rowIdx];
-                for (size_t colIdx = 0; colIdx < columnsToPrint.printColNames.size(); colIdx++)
-                {
-                    auto it = find(table.colnames.begin(), table.colnames.end(),
+                
+                for (size_t colIdx = 0; colIdx < columnsToPrint.printColNames.size(); colIdx++) {
+                    auto it = find(table.colnames.begin(), table.colnames.end(), 
                                    columnsToPrint.printColNames[colIdx]);
                     size_t actualColIdx = static_cast<size_t>(distance(table.colnames.begin(), it));
-
-                    if (colIdx != 0)
+            
+                    if (colIdx != 0) {
                         cout << " ";
-                    visit([](const auto &v)
-                          { cout << v; }, row[actualColIdx]);
+                    }
+            
+                    const auto &cell = row[actualColIdx];
+            
+                    try {
+                        cout << get<int>(cell);
+                        continue;
+                    } catch (...) {}
+            
+                    try {
+                        cout << get<double>(cell);
+                        continue;
+                    } catch (...) {}
+            
+                    try {
+                        if (get<bool>(cell)) {
+                            cout << "true";
+                        } else {
+                            cout << "false";
+                        }
+                        continue;
+                    } catch (...) {}
+            
+                    try {
+                        cout << get<string>(cell);
+                    } catch (...) {
+                        return;  
+                    }
                 }
                 cout << "\n";
             }
@@ -398,10 +415,14 @@ public:
 
         cout << "Printed " << rowsToPrint.size() << " matching rows from " << printName << "\n";
     }
+    
 
     void deleteRow()
     {
-        string tableName, colname, op, valueStr;
+        string tableName;
+        string colname;
+        string op;
+        string valueStr;
         cin >> command >> tableName >> command >> colname >> op >> valueStr;
 
         if (database.find(tableName) == database.end())
@@ -502,7 +523,10 @@ public:
 
     void join()
     {
-        string table1, table2, col1, col2;
+        string table1;
+        string table2;
+        string col1;
+        string col2;
         cin >> table1 >> command >> table2 >> command >> col1 >> command >> col2 >> command;
 
         if (database.find(table1) == database.end())
@@ -586,8 +610,8 @@ public:
 
                 try
                 {
-                    int i1 = std::get<int>(val1);
-                    int i2 = std::get<int>(val2);
+                    int i1 = get<int>(val1);
+                    int i2 = get<int>(val2);
                     is_equal = (i1 == i2);
                 }
                 catch (...)
@@ -598,8 +622,8 @@ public:
                 {
                     try
                     {
-                        double d1 = std::get<double>(val1);
-                        double d2 = std::get<double>(val2);
+                        double d1 = get<double>(val1);
+                        double d2 = get<double>(val2);
                         is_equal = (d1 == d2);
                     }
                     catch (...)
@@ -611,8 +635,8 @@ public:
                 {
                     try
                     {
-                        bool b1 = std::get<bool>(val1);
-                        bool b2 = std::get<bool>(val2);
+                        bool b1 = get<bool>(val1);
+                        bool b2 = get<bool>(val2);
                         is_equal = (b1 == b2);
                     }
                     catch (...)
@@ -624,8 +648,8 @@ public:
                 {
                     try
                     {
-                        string s1 = std::get<string>(val1);
-                        string s2 = std::get<string>(val2);
+                        string s1 = get<string>(val1);
+                        string s2 = get<string>(val2);
                         is_equal = (s1 == s2);
                     }
                     catch (...)
@@ -653,29 +677,33 @@ public:
 
                         try
                         {
-                            valStr = std::to_string(std::get<int>(cell));
+                            valStr = to_string(get<int>(cell));
                         }
                         catch (...)
                         {
                             try
                             {
-                                valStr = std::to_string(std::get<double>(cell));
+                                valStr = to_string(get<double>(cell));
                             }
                             catch (...)
                             {
                                 try
                                 {
-                                    valStr = std::get<bool>(cell) ? "true" : "false";
+                                    if (get<bool>(cell)) {
+                                        valStr = "true";
+                                    } else {
+                                        valStr = "false";
+                                    }
                                 }
                                 catch (...)
                                 {
                                     try
                                     {
-                                        valStr = std::get<string>(cell);
+                                        valStr = get<string>(cell);
                                     }
                                     catch (...)
                                     {
-                                        valStr = "ERROR";
+                                        return;
                                     }
                                 }
                             }
@@ -744,7 +772,9 @@ public:
 
     void userGenerate()
     {
-        string tableName, indexType, colName;
+        string tableName;
+        string indexType;
+        string colName;
         cin >> command >> tableName >> indexType >> command >> command >> colName;
 
         if (database.find(tableName) == database.end())
