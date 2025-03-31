@@ -1,0 +1,18 @@
+% % % New table class1 with column(s) col1 col2 col3 col4 col5 created
+% Added 10 rows to class1 from position 0 to 9
+% col2 col1 
+s11 s1
+s22 s2
+s33 s3
+s44 s4
+s55 s5
+s66 s6
+s77 s7
+s88 s8
+s99 s9
+s1010 s10
+Printed 10 matching rows from class1
+% Added 2 rows to class1 from position 10 to 11
+% Table class1 removed
+% New table class with column(s) first second created
+% Thanks for being silly!

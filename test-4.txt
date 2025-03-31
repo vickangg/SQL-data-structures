@@ -1,0 +1,12 @@
+# Test file 4 placing quit at the end
+CREATE places 3 string string bool place state Indian
+CREATE animals 3 string bool bool name likes_cats likes_dogs
+CREATE seasons 1 string season_name
+# Error as table doesn't exist 
+# REMOVE cities
+INSERT INTO places 3 ROWS
+Jackson Riffe true
+Jackson McCambridge true
+Champ Clover false
+PRINT FROM places 2 place Indian ALL
+QUIT

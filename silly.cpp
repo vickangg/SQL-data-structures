@@ -8,6 +8,7 @@
 #include <unordered_map>
 #include <getopt.h>
 #include <sstream>
+#include <variant>
 
 #include "Field.h"
 
@@ -221,9 +222,10 @@ public:
             getline(cin, errorJunk);
             return;
         }
+
         cout << "Added " << rows << " rows to " << database[insertTable].tablename << " from position " << database[insertTable].currentIndex << " to ";
-        database[insertTable].currentIndex += rows - 1;
-        cout << database[insertTable].currentIndex << "\n";
+        database[insertTable].currentIndex += rows;
+        cout << database[insertTable].currentIndex - 1 << "\n";
     }
 
     void print()
@@ -326,6 +328,7 @@ public:
                     }
                 }
             }
+            /*
             else
             {
                 for (uint32_t i = 0; i < table.rows.size(); i++)
@@ -352,6 +355,7 @@ public:
                     }
                 }
             }
+                */
         }
         else if (command == "ALL")
         {
@@ -365,48 +369,69 @@ public:
         {
             for (uint32_t i = 0; i < columnsToPrint.printColNames.size(); i++)
             {
-                    cout << columnsToPrint.printColNames[i];
-                    cout << " ";
+                cout << columnsToPrint.printColNames[i];
+                cout << " ";
             }
             cout << "\n";
 
-            for (uint32_t rowIdx : rowsToPrint) {
+            for (uint32_t rowIdx : rowsToPrint)
+            {
                 auto &row = table.rows[rowIdx];
-                
-                for (size_t colIdx = 0; colIdx < columnsToPrint.printColNames.size(); colIdx++) {
-                    auto it = find(table.colnames.begin(), table.colnames.end(), 
+
+                for (size_t colIdx = 0; colIdx < columnsToPrint.printColNames.size(); colIdx++)
+                {
+                    auto it = find(table.colnames.begin(), table.colnames.end(),
                                    columnsToPrint.printColNames[colIdx]);
                     size_t actualColIdx = static_cast<size_t>(distance(table.colnames.begin(), it));
-            
-                    if (colIdx != 0) {
+
+                    if (colIdx != 0)
+                    {
                         cout << " ";
                     }
-            
+
                     const auto &cell = row[actualColIdx];
-            
-                    try {
+
+                    try
+                    {
                         cout << get<int>(cell);
                         continue;
-                    } catch (...) {}
-            
-                    try {
+                    }
+                    catch (...)
+                    {
+                    }
+
+                    try
+                    {
                         cout << get<double>(cell);
                         continue;
-                    } catch (...) {}
-            
-                    try {
-                        if (get<bool>(cell)) {
+                    }
+                    catch (...)
+                    {
+                    }
+
+                    try
+                    {
+                        if (get<bool>(cell))
+                        {
                             cout << "true";
-                        } else {
+                        }
+                        else
+                        {
                             cout << "false";
                         }
                         continue;
-                    } catch (...) {}
-            
-                    try {
+                    }
+                    catch (...)
+                    {
+                    }
+
+                    try
+                    {
                         cout << get<string>(cell);
-                    } catch (...) {
-                        return;  
+                    }
+                    catch (...)
+                    {
+                        return;
                     }
                 }
                 cout << "\n";
@@ -415,7 +440,6 @@ public:
 
         cout << "Printed " << rowsToPrint.size() << " matching rows from " << printName << "\n";
     }
-    
 
     void deleteRow()
     {
@@ -515,7 +539,31 @@ public:
 
         if (!table.indexedColumn.empty())
         {
-            buildIndex(table);
+            bool needRebuild = false;
+
+            if (colname == table.indexedColumn)
+            {
+                needRebuild = true;
+            }
+            else
+            {
+                // size_t indexedColPos = static_cast<size_t>(distance(table.colnames.begin(),
+                //   find(table.colnames.begin(), table.colnames.end(), table.indexedColumn)));
+
+                for (uint32_t rowIdx : rowsToDelete)
+                {
+                    if (rowIdx < table.rows.size())
+                    {
+                        needRebuild = true;
+                        break;
+                    }
+                }
+            }
+
+            if (needRebuild)
+            {
+                buildIndex(table);
+            }
         }
 
         cout << "Deleted " << rowsToDelete.size() << " rows from " << tableName << "\n";
@@ -689,9 +737,12 @@ public:
                             {
                                 try
                                 {
-                                    if (get<bool>(cell)) {
+                                    if (get<bool>(cell))
+                                    {
                                         valStr = "true";
-                                    } else {
+                                    }
+                                    else
+                                    {
                                         valStr = "false";
                                     }
                                 }
@@ -755,8 +806,38 @@ public:
             table.hashIndex.clear();
             for (uint32_t i = 0; i < table.rows.size(); i++)
             {
-                string key = get<string>(table.rows[i][colIdx]);
-                table.hashIndex[key].push_back(i);
+                variant<int, double, bool, string> value;
+                try
+                {
+                    switch (table.coltypes[colIdx])
+                    {
+                    case ColumnType::Int:
+                    {
+                        value = table.rows[i][colIdx];
+                        break;
+                    }
+                    case ColumnType::Double:
+                    {
+                        value = table.rows[i][colIdx];
+                        break;
+                    }
+                    case ColumnType::Bool:
+                    {
+                        value = table.rows[i][colIdx];
+                        break;
+                    }
+                    case ColumnType::String:
+                    {
+                        value = table.rows[i][colIdx];
+                        break;
+                    }
+                    }
+                }
+                catch (...)
+                {
+                    return;
+                }
+                table.hashIndex[variantToString(value)].push_back(i);
             }
         }
         else if (table.indexType == "bst")
@@ -769,6 +850,26 @@ public:
             }
         }
     }
+
+    
+string variantToString(const variant<int, double, bool, string>& v) {
+    return visit([](const auto& arg) -> std::string {
+        using T = std::decay_t<decltype(arg)>;
+        if constexpr (std::is_same_v<T, int>) {
+            return std::to_string(arg);  // "42"
+        }
+        else if constexpr (std::is_same_v<T, double>) {
+            return std::to_string(arg);  // "3.140000"
+        }
+        else if constexpr (std::is_same_v<T, bool>) {
+            return arg ? "true" : "false";  // "true" or "false"
+        }
+        else if constexpr (std::is_same_v<T, std::string>) {
+            return arg;  // Already a string
+        }
+    }, v);
+}
+
 
     void userGenerate()
     {
@@ -867,6 +968,7 @@ public:
             else
             {
                 cout << "Error: unrecognized command" << endl;
+                getline(cin, command);
             }
         } while (command != "QUIT");
     }
