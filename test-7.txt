@@ -1,23 +1,23 @@
-#Awesome Spec Example!
-CREATE 281class 3 string string bool emotion person Y/N
-INSERT INTO 281class 8 ROWS
-happy Zo true
-stressed students false
-busy office_hours true
-stressed students true
-stressed Paoletti true
-happy Darden true
-happy Ab true
-victorious Sith true
-DELETE FROM 281class WHERE Y/N = false
-GENERATE FOR 281class bst INDEX ON Y/N
-GENERATE FOR 281class hash INDEX ON emotion
-PRINT FROM 281class 2 person emotion WHERE emotion = happy
-CREATE pets 3 string bool bool Name likes_cats? likes_dogs?
-INSERT INTO pets 2 ROWS
-Sith true true
-Paoletti true false
-JOIN pets AND 281class WHERE Name = person AND PRINT 3 Name 1 emotion 2 likes_dogs? 1
-REMOVE pets
-REMOVE 281class
+# test test tes tes
+CREATE academy 3 string string bool mood student active
+INSERT INTO academy 8 ROWS
+joyful Taylor true
+anxious learners false
+busy lab_hours true
+anxious learners true
+anxious Chen true
+joyful Morgan true
+joyful Kai true
+triumphant Lee true
+DELETE FROM academy WHERE active = false
+GENERATE FOR academy bst INDEX ON active
+GENERATE FOR academy hash INDEX ON mood
+PRINT FROM academy 2 student mood WHERE mood = joyful
+CREATE animals 3 string bool bool pet_name friendly vaccinated
+INSERT INTO animals 2 ROWS
+Lee true true
+Chen true false
+JOIN animals AND academy WHERE pet_name = student AND PRINT 3 pet_name 1 mood 2 vaccinated 1
+REMOVE animals
+REMOVE academy
 QUIT

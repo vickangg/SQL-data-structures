@@ -1,12 +1,22 @@
-# Test file 4 placing quit at the end
-CREATE places 3 string string bool place state Indian
-CREATE animals 3 string bool bool name likes_cats likes_dogs
-CREATE seasons 1 string season_name
-# Error as table doesn't exist 
-# REMOVE cities
-INSERT INTO places 3 ROWS
-Jackson Riffe true
-Jackson McCambridge true
-Champ Clover false
-PRINT FROM places 2 place Indian ALL
+# test test
+CREATE universities 4 string string int bool name state established public
+CREATE planets 3 string float bool name mass has_rings
+CREATE employees 2 string int name salary
+DELETE FROM departments WHERE name = "HR"
+INSERT INTO universities 4 ROWS
+Georgia Georgia 1885 true
+MIT Massachusetts 1861 true
+Liberty Virginia 1971 false
+Berea Kentucky 1855 false
+INSERT INTO planets 2 ROWS
+Saturn 568.34 true
+Mars 0.642 false
+PRINT FROM universities 2 name state ALL
+PRINT FROM planets 3 name mass has_rings WHERE has_rings = true
+PRINT FROM planets 4 name mass has_rings dummy ALL
+INSERT INTO employees 3 ROWS
+Alice 85000
+Bob 92000
+Charlie 76000
+PRINT FROM employees 2 name salary WHERE salary > 80000
 QUIT

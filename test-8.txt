@@ -8,6 +8,7 @@ INSERT INTO 281class 7 ROWS
 8483 7621 9287.8
 384 213 34.25
 362 87 2.9
+#com comment
 GENERATE FOR 281class bst INDEX ON two
 GENERATE FOR 281class hash INDEX ON one
 PRINT FROM 281class 3 one two three WHERE one > 300 

@@ -1,0 +1,19 @@
+#Awesome Spec Example!
+CREATE 281class 4 int int double string one two three four
+INSERT INTO 281class 7 ROWS
+237 2983 81.92 poli
+19 282 991.00 ancuds
+123 927 37.2 reufn
+0192 473 82.3 ncjsu
+8483 7621 9287.8 afhi
+384 213 34.25 baie
+362 87 2.9 wiru
+GENERATE FOR 281class bst INDEX ON two
+GENERATE FOR 281class hash INDEX ON four
+PRINT FROM 281class 1 four WHERE four > bop 
+QUIT
+# moremore more
+CREATE 2class 4 int int double string one two three four
+INSERT INTO 281class 2 ROWS
+237 2983 81.92 poli
+19 282 991.00 ancuds
