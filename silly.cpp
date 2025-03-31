@@ -29,7 +29,7 @@ struct Table
     vector<vector<variant<int, double, bool, string>>> rows;
     uint32_t currentIndex = 0;
 
-    unordered_map<string, vector<uint32_t>> hashIndex;                  // hash index
+    unordered_map<variant<int, double, bool, string>, vector<uint32_t>> hashIndex;                  // hash index
     map<variant<int, double, bool, string>, vector<uint32_t>> bstIndex; // bst index
     string indexedColumn;                                               // name of column that's indexed
     string indexType;                                                   // "hash" or "bst" or empty
@@ -328,7 +328,7 @@ public:
                     }
                 }
             }
-            /*
+            
             else
             {
                 for (uint32_t i = 0; i < table.rows.size(); i++)
@@ -355,7 +355,7 @@ public:
                     }
                 }
             }
-                */
+                
         }
         else if (command == "ALL")
         {
@@ -374,69 +374,30 @@ public:
             }
             cout << "\n";
 
-            for (uint32_t rowIdx : rowsToPrint)
-            {
-                auto &row = table.rows[rowIdx];
-
-                for (size_t colIdx = 0; colIdx < columnsToPrint.printColNames.size(); colIdx++)
-                {
+            for (uint32_t rowIdx : rowsToPrint) {
+                // Get the current row
+                const auto& row = table.rows[rowIdx];  // row is a vector<Cell>
+            
+                // Iterate over columns to print
+                for (size_t colIdx = 0; colIdx < columnsToPrint.printColNames.size(); colIdx++) {
+                    // Find the column index for the current column name
                     auto it = find(table.colnames.begin(), table.colnames.end(),
                                    columnsToPrint.printColNames[colIdx]);
                     size_t actualColIdx = static_cast<size_t>(distance(table.colnames.begin(), it));
-
-                    if (colIdx != 0)
-                    {
+            
+                    // Print a space between columns (except the first one)
+                    if (colIdx != 0) {
                         cout << " ";
                     }
-
-                    const auto &cell = row[actualColIdx];
-
-                    try
-                    {
-                        cout << get<int>(cell);
-                        continue;
-                    }
-                    catch (...)
-                    {
-                    }
-
-                    try
-                    {
-                        cout << get<double>(cell);
-                        continue;
-                    }
-                    catch (...)
-                    {
-                    }
-
-                    try
-                    {
-                        if (get<bool>(cell))
-                        {
-                            cout << "true";
-                        }
-                        else
-                        {
-                            cout << "false";
-                        }
-                        continue;
-                    }
-                    catch (...)
-                    {
-                    }
-
-                    try
-                    {
-                        cout << get<string>(cell);
-                    }
-                    catch (...)
-                    {
-                        return;
-                    }
+            
+                    // Print the cell at [rowIdx][actualColIdx]
+                    visit([](const auto& val) { cout << val; }, row[actualColIdx]);
                 }
+            
+                // Newline after each row
                 cout << "\n";
             }
-        }
+    }
 
         cout << "Printed " << rowsToPrint.size() << " matching rows from " << printName << "\n";
     }
@@ -806,38 +767,8 @@ public:
             table.hashIndex.clear();
             for (uint32_t i = 0; i < table.rows.size(); i++)
             {
-                variant<int, double, bool, string> value;
-                try
-                {
-                    switch (table.coltypes[colIdx])
-                    {
-                    case ColumnType::Int:
-                    {
-                        value = table.rows[i][colIdx];
-                        break;
-                    }
-                    case ColumnType::Double:
-                    {
-                        value = table.rows[i][colIdx];
-                        break;
-                    }
-                    case ColumnType::Bool:
-                    {
-                        value = table.rows[i][colIdx];
-                        break;
-                    }
-                    case ColumnType::String:
-                    {
-                        value = table.rows[i][colIdx];
-                        break;
-                    }
-                    }
-                }
-                catch (...)
-                {
-                    return;
-                }
-                table.hashIndex[variantToString(value)].push_back(i);
+                auto &key = table.rows[i][colIdx];
+                table.hashIndex[key].push_back(i);
             }
         }
         else if (table.indexType == "bst")
@@ -850,26 +781,6 @@ public:
             }
         }
     }
-
-    
-string variantToString(const variant<int, double, bool, string>& v) {
-    return visit([](const auto& arg) -> std::string {
-        using T = std::decay_t<decltype(arg)>;
-        if constexpr (std::is_same_v<T, int>) {
-            return std::to_string(arg);  // "42"
-        }
-        else if constexpr (std::is_same_v<T, double>) {
-            return std::to_string(arg);  // "3.140000"
-        }
-        else if constexpr (std::is_same_v<T, bool>) {
-            return arg ? "true" : "false";  // "true" or "false"
-        }
-        else if constexpr (std::is_same_v<T, std::string>) {
-            return arg;  // Already a string
-        }
-    }, v);
-}
-
 
     void userGenerate()
     {

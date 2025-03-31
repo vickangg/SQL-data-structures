@@ -11,7 +11,7 @@ happy Ab true
 victorious Sith true
 DELETE FROM 281class WHERE Y/N = false
 GENERATE FOR 281class bst INDEX ON Y/N
-GENERATE FOR 281class hash INDEX ON Y/N
+GENERATE FOR 281class hash INDEX ON emotion
 PRINT FROM 281class 2 person emotion WHERE emotion = happy
 CREATE pets 3 string bool bool Name likes_cats? likes_dogs?
 INSERT INTO pets 2 ROWS
