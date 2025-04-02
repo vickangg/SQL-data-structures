@@ -1,0 +1,28 @@
+#test test test test
+CREATE yeah 2 string string num1 num2
+INSERT INTO yeah 4 ROWS
+5 4
+4 3
+3 2
+2 5
+DELETE FROM yeah WHERE num1 > 4
+PRINT FROM yeah 1 num1 ALL
+DELETE FROM yeah WHERE num2 = 4
+PRINT FROM yeah 1 num2 ALL
+GENERATE FOR yeah bst INDEX ON num2
+JOIN yeah AND yeah WHERE num1 = num2 AND PRINT 1 num2 1
+DELETE yeah
+CREATE yuh 2 int string num3 kiki
+GENERATE FOR yuh bst INDEX ON num3
+GENERATE FOR yuh hash INDEX ON kiki
+INSERT INTO yuh 5 ROWS
+37 acknowledge
+29 akdjcn
+29 ncjsu
+102 fence
+283 fashion
+PRINT FROM yuh 2 kiki num3 WHERE num3 < 100
+GENERATE FOR yuh hash INDEX ON kiki
+PRINT FROM yuh 2 kiki num3 WHERE kiki = acknowledge
+PRINT FROM yuh 2 kiki num3 WHERE num3 = 29
+QUIT

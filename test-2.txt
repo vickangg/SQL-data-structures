@@ -12,6 +12,7 @@ GENERATE FOR 281class bst INDEX ON two
 GENERATE FOR 281class hash INDEX ON four
 PRINT FROM 281class 1 four WHERE four > bop 
 GENERATE FOR 281class hash INDEX ON one
+JOIN 281class AND 281class WHERE one = two AND PRINT 3 one 1 three 1 two 1
 PRINT FROM 281class 1 four WHERE one = 123
 INSERT INTO 281class 3 ROWS
 374 29 928.394 jsdnc
@@ -33,6 +34,7 @@ billy
 trent
 guy
 GENERATE FOR cartoon_characters bst INDEX ON name
+JOIN pets AND pets WHERE likes_cats = likes_dogs AND PRINT 2 name 1 likes_dogs 1 
 GENERATE FOR pets hash INDEX ON likes_cats
 DELETE FROM pets WHERE name = kid
 DELETE FROM students WHERE name > fire

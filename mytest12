@@ -12,35 +12,35 @@ Sarah Research 3
 Emma Operations 6 
 Printed 4 rows from joining employees to departments
 % name dept salary 
-John Engineering 85000.5 
-John Sales 85000.5 
-John Finance 85000.5 
-John IT 85000.5 
-John Research 85000.5 
-Jane Marketing 92000.75 
-Jane HR 92000.75 
-Jane Operations 92000.75 
-Alice Engineering 110000 
-Alice Sales 110000 
-Alice Finance 110000 
-Alice IT 110000 
-Alice Research 110000 
-Mike Marketing 65000 
-Mike HR 65000 
-Mike Operations 65000 
-Sarah Engineering 95000.5 
-Sarah Sales 95000.5 
-Sarah Finance 95000.5 
-Sarah IT 95000.5 
-Sarah Research 95000.5 
-Tom Marketing 72000.3 
-Tom HR 72000.3 
-Tom Operations 72000.3 
-Emma Engineering 88000.9 
-Emma Sales 88000.9 
-Emma Finance 88000.9 
-Emma IT 88000.9 
-Emma Research 88000.9 
+John Engineering 85000.500000 
+John Sales 85000.500000 
+John Finance 85000.500000 
+John IT 85000.500000 
+John Research 85000.500000 
+Jane Marketing 92000.750000 
+Jane HR 92000.750000 
+Jane Operations 92000.750000 
+Alice Engineering 110000.000000 
+Alice Sales 110000.000000 
+Alice Finance 110000.000000 
+Alice IT 110000.000000 
+Alice Research 110000.000000 
+Mike Marketing 65000.000000 
+Mike HR 65000.000000 
+Mike Operations 65000.000000 
+Sarah Engineering 95000.580000 
+Sarah Sales 95000.580000 
+Sarah Finance 95000.580000 
+Sarah IT 95000.580000 
+Sarah Research 95000.580000 
+Tom Marketing 72000.323000 
+Tom HR 72000.323000 
+Tom Operations 72000.323000 
+Emma Engineering 88000.990000 
+Emma Sales 88000.990000 
+Emma Finance 88000.990000 
+Emma IT 88000.990000 
+Emma Research 88000.990000 
 Printed 29 rows from joining employees to departments
 % Deleted 4 rows from employees
 % Generated hash index for table employees on column salary, with 3 distinct keys
