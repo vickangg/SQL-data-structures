@@ -1,23 +1,41 @@
-# test test tes tes
-CREATE academy 3 string string bool mood student active
-INSERT INTO academy 8 ROWS
-joyful Taylor true
-anxious learners false
-busy lab_hours true
-anxious learners true
-anxious Chen true
-joyful Morgan true
-joyful Kai true
-triumphant Lee true
-DELETE FROM academy WHERE active = false
-GENERATE FOR academy bst INDEX ON active
-GENERATE FOR academy hash INDEX ON mood
-PRINT FROM academy 2 student mood WHERE mood = joyful
-CREATE animals 3 string bool bool pet_name friendly vaccinated
-INSERT INTO animals 2 ROWS
-Lee true true
-Chen true false
-JOIN animals AND academy WHERE pet_name = student AND PRINT 3 pet_name 1 mood 2 vaccinated 1
-REMOVE animals
-REMOVE academy
+CREATE yeah 2 string int string1 int1
+CREATE yuh 2 string bool string2 bool1
+INSERT INTO yeah 5 ROWS
+sjdcn 12
+dkjcn 12
+dskjcn 15
+sjknc 13
+kdnjcd 14
+INSERT INTO yuh 5 ROWS
+ncdjs true
+ncksj false
+icjsidoj true
+aknc true
+ckdn false
+GENERATE FOR yeah hash INDEX ON int1
+DELETE FROM yeah WHERE int1 = 12
+PRINT FROM yeah 1 string1 WHERE string1 > descend
+PRINT FROM yeah 1 string1 WHERE int1 = 14
+PRINT FROM yeah 1 string1 WHERE int1 < 15
+GENERATE FOR yeah hash INDEX ON int1
+INSERT INTO yeah 3 ROWS
+aknjcdj 12
+djco 19
+adicjdi 12
+GENERATE FOR yeah bst INDEX ON int1
+DELETE FROM yeah WHERE int1 = 12
+PRINT FROM yeah 1 int1 WHERE int1 > 17
+PRINT FROM yeah 1 string1 WHERE string1 = djco
+PRINT FROM yeah 1 string1 WHERE int1 < 15
+JOIN yeah AND yuh WHERE string1 = string2 AND PRINT 2 int1 1 bool1 2 
+GENERATE FOR yeah hash INDEX ON int1
+PRINT FROM yeah 1 string1 WHERE int1 > 10
+PRINT FROM yeah 1 int1 WHERE string1 = dkjcn
+PRINT FROM yeah 1 int1 WHERE int1 < 25
+GENERATE FOR yeah hash INDEX ON string1
+PRINT FROM yeah 1 string1 WHERE int1 > 10
+PRINT FROM yeah 1 string1 WHERE string1 = dkjcn
+PRINT FROM yeah 1 string1 WHERE int1 < 25
+REMOVE yeah
+REMOVE yuh
 QUIT

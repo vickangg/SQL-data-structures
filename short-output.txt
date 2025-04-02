@@ -4757,7 +4757,7 @@ Printed 0 matching rows from noise
 35 165.272 104.635 165.833 86.4488 24 true false 10.3055 77 104 200 false 10.3055 false beauty 166 
 98 107.487 72.8347 55.1111 95.4504 198 true false 78.4373 183 193 88 true 78.4373 false appropriate 76 
 98 156.514 147.01 178.272 41.3853 163 true true 123.12 79 141 30 false 123.12 false shorts 132 
-Printed 169 rows from joining partnership to sexy
+Printed 169 rows from joining
 % Deleted 0 rows from noise
 % marry red fully fraud fraud bench purchase another bench calculate daily 
 Printed 0 rows from joining partnership to virtue

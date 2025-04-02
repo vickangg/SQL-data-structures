@@ -21,7 +21,7 @@ INSERT INTO random2 6 ROWS
 22 wkaokc false
 22 beajndcij true
 22 blcoaje false
-JOIN random AND random2 WHERE string1 = int2 AND PRINT 3 string1 1 yes 2 string2 2
+JOIN random AND random2 WHERE string1 = string2 AND PRINT 3 string1 1 yes 2 string2 2
 GENERATE FOR random2 bst INDEX ON string2
 INSERT INTO random2 2 ROWS
 22 macjndj false

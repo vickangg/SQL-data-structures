@@ -8,7 +8,38 @@ INSERT INTO grades 3 ROWS
 Alice Math
 Bob Physics
 Alice History
+GENERATE FOR students hash INDEX ON age
+PRINT FROM students 2 name age WHERE age > 21
+PRINT FROM students 2 name age WHERE name = Charlie
+PRINT FROM students 2 name age WHERE age < 8
+PRINT FROM grades 2 student course WHERE course > hi
+PRINT FROM grades 2 student course WHERE student = bye
+PRINT FROM grades 2 student course WHERE student < hello
+GENERATE FOR grades bst INDEX ON course
+PRINT FROM students 2 age name WHERE name > Bob
+PRINT FROM students 2 name age WHERE age = 10
+PRINT FROM students 2 name age WHERE age < 8
+PRINT FROM grades 2 student course WHERE student > hi
+PRINT FROM grades 2 student course WHERE student = bye
+PRINT FROM grades 2 student course WHERE course < hello
+INSERT INTO students 2 ROWS
+Darcy 4
+Elise 12
+INSERT INTO grades 2 ROWS
+Fiona Zone
+Trent Gym
+PRINT FROM students 2 name age WHERE age > 21
+PRINT FROM students 2 name age WHERE age = 10
+PRINT FROM students 2 name age WHERE age < 8
+PRINT FROM grades 2 student course WHERE student > hi
+PRINT FROM grades 2 student course WHERE student = bye
+PRINT FROM grades 2 student course WHERE student < hello
+GENERATE FOR grades bst INDEX ON course
+PRINT FROM students 2 age name WHERE age > 21
+PRINT FROM students 2 name age WHERE age = 10
+PRINT FROM students 2 name age WHERE age < 8
+PRINT FROM grades 2 student course WHERE course > hi
+PRINT FROM grades 2 student course WHERE course = bye
+PRINT FROM grades 2 student course WHERE student < hello
 JOIN students AND grades WHERE name = student AND PRINT 3 name 1 course 2 age 1
-JOIN grades AND students WHERE age = name AND PRINT 2 age 1 student 2 
-JOIN grades AND students WHERE course = name AND PRINT 2 age 1 student 2 
 QUIT

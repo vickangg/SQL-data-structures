@@ -1,0 +1,32 @@
+CREATE yeah 3 string int bool string1 int1 non
+CREATE yuh 3 string int bool string2 int2 nonn
+INSERT INTO yeah 8 ROWS
+marty 2 false
+becca 2 false
+peep 3 false
+morp 2 true
+may 2 true
+blahg 2 false
+scoopy 4 false
+phineas 3 false
+INSERT INTO yuh 6 ROWS
+paul 3 true
+blahg 2 true
+koopa 2 true
+wharg 2 false
+becca 2 true
+bloop 2 false
+DELETE FROM yeah WHERE non = true
+GENERATE FOR yeah hash INDEX ON string1
+GENERATE FOR yeah bst INDEX ON int1
+PRINT FROM yeah 3 string1 int1 non ALL
+JOIN yeah AND yuh WHERE string1 = string2 AND PRINT 3 string1 1 nonn 2 int2 2
+GENERATE FOR yuh bst INDEX ON int2
+INSERT INTO yuh 2 ROWS
+marty 2 false
+scopr 3 true
+PRINT FROM yuh 3 string2 int2 nonn WHERE int2 > 1
+DELETE FROM yuh WHERE int2 < 3
+REMOVE yeah
+REMOVE yuh
+QUIT
