@@ -709,7 +709,20 @@ public:
                     string key = visit([](const auto &val) -> string
                                        {
             using T = decay_t<decltype(val)>;
-            if constexpr (is_same_v<T, int> || is_same_v<T, double>) return to_string(val);
+            if constexpr (is_same_v<T, int>) {
+                return to_string(val);
+            }
+            else if constexpr (is_same_v<T, double>) {
+                string s = to_string(val);
+                
+                s.erase(s.find_last_not_of('0') + 1, string::npos);
+                
+                if (!s.empty() && s.back() == '.') {
+                    s.pop_back();
+                }
+                
+                return s;
+            }
             else if constexpr (is_same_v<T, bool>) return val ? "true" : "false";
             else if constexpr (is_same_v<T, string>) return val;
             return ""; }, val);
@@ -726,8 +739,19 @@ public:
                     string key = visit([](const auto &val) -> string
                                        {
             using T = decay_t<decltype(val)>;
-            if constexpr (is_same_v<T, int> || is_same_v<T, double>) {
+            if constexpr (is_same_v<T, int>) {
                 return to_string(val);
+            }
+            else if constexpr (is_same_v<T, double>) {
+                string s = to_string(val);
+                
+                s.erase(s.find_last_not_of('0') + 1, string::npos);
+                
+                if (!s.empty() && s.back() == '.') {
+                    s.pop_back();
+                }
+                
+                return s;
             }
             else if constexpr (is_same_v<T, bool>) {
                 return val ? "true" : "false";
@@ -759,8 +783,19 @@ public:
                                 string valStr = visit([](const auto &val) -> string
                                                       {
                         using T = decay_t<decltype(val)>;
-                        if constexpr (is_same_v<T, int> || is_same_v<T, double>) {
+                        if constexpr (is_same_v<T, int>) {
                             return to_string(val);
+                        }
+                        else if constexpr (is_same_v<T, double>) {
+                            string s = to_string(val);
+                            
+                            s.erase(s.find_last_not_of('0') + 1, string::npos);
+                            
+                            if (!s.empty() && s.back() == '.') {
+                                s.pop_back();
+                            }
+                            
+                            return s;
                         }
                         else if constexpr (is_same_v<T, bool>) {
                             return val ? "true" : "false";
@@ -788,8 +823,19 @@ public:
                     string key = visit([](const auto &val) -> string
                                        {
             using T = decay_t<decltype(val)>;
-            if constexpr (is_same_v<T, int> || is_same_v<T, double>) {
+            if constexpr (is_same_v<T, int>) {
                 return to_string(val);
+            }
+            else if constexpr (is_same_v<T, double>) {
+                string s = to_string(val);
+                
+                s.erase(s.find_last_not_of('0') + 1, string::npos);
+                
+                if (!s.empty() && s.back() == '.') {
+                    s.pop_back();
+                }
+                
+                return s;
             }
             else if constexpr (is_same_v<T, bool>) {
                 return val ? "true" : "false";
@@ -821,8 +867,19 @@ public:
                                 string valStr = visit([](const auto &val) -> string
                                                       {
                         using T = decay_t<decltype(val)>;
-                        if constexpr (is_same_v<T, int> || is_same_v<T, double>) {
+                        if constexpr (is_same_v<T, int>) {
                             return to_string(val);
+                        }
+                        else if constexpr (is_same_v<T, double>) {
+                            string s = to_string(val);
+                            
+                            s.erase(s.find_last_not_of('0') + 1, string::npos);
+                            
+                            if (!s.empty() && s.back() == '.') {
+                                s.pop_back();
+                            }
+                            
+                            return s;
                         }
                         else if constexpr (is_same_v<T, bool>) {
                             return val ? "true" : "false";
