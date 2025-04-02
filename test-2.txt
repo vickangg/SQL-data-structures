@@ -1,4 +1,4 @@
-#Awesome Spec Example!
+#Awesome Spec Example! done
 CREATE 281class 4 int int double string one two three four
 INSERT INTO 281class 7 ROWS
 237 2983 81.92 poli
@@ -11,4 +11,32 @@ INSERT INTO 281class 7 ROWS
 GENERATE FOR 281class bst INDEX ON two
 GENERATE FOR 281class hash INDEX ON four
 PRINT FROM 281class 1 four WHERE four > bop 
+GENERATE FOR 281class hash INDEX ON one
+PRINT FROM 281class 1 four WHERE one = 123
+INSERT INTO 281class 3 ROWS
+374 29 928.394 jsdnc
+2938 89 822.2 fnj
+738 2938 88.32 smdc
+# Checkpoint file 1: # (comment), CREATE, REMOVE, QUIT
+CREATE 281class3 3 string string bool emotion person Y/N
+CREATE cities 5 string string int double bool name state population area is_capital?
+CREATE pets 3 string bool bool name likes_cats? likes_dogs?
+CREATE cartoon_characters 1 string name
+INSERT INTO pets 4 ROWS
+cute true true
+joy true true
+kid false true
+fire true false
+JOIN pets AND cartoon_characters WHERE likes_cats = name AND PRINT 2 name 1 likes_dogs 1 
+INSERT INTO cartoon_characters 3 ROWS
+billy
+trent
+guy
+GENERATE FOR cartoon_characters bst INDEX ON name
+GENERATE FOR pets hash INDEX ON likes_cats
+DELETE FROM pets WHERE name = kid
+DELETE FROM students WHERE name > fire
+PRINT FROM pets 1 name WHERE name < kid
+REMOVE cities
+REMOVE pets
 QUIT

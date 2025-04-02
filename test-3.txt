@@ -1,0 +1,14 @@
+CREATE students 2 string int name age
+CREATE grades 2 string string student course
+INSERT INTO students 3 ROWS
+Alice 20
+Bob 22
+Charlie 21
+INSERT INTO grades 3 ROWS
+Alice Math
+Bob Physics
+Alice History
+JOIN students AND grades WHERE name = student AND PRINT 3 name 1 course 2 age 1
+JOIN grades AND students WHERE age = name AND PRINT 2 age 1 student 2 
+JOIN grades AND students WHERE course = name AND PRINT 2 age 1 student 2 
+QUIT

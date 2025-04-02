@@ -1,0 +1,28 @@
+# tes test test
+CREATE boom 2 bool bool boom1 boom2
+INSERT INTO class 10 ROWS
+REMOVE boom
+PRINT FROM class 2 bam bam2 ALL
+CREATE hi 3 string bool double name no doub
+INSERT INTO hi 8 ROWS
+jdncdj true 73.82
+ndjcn false 873.374
+ajnc true 772.83
+jandc true 2873.992
+jsdn true 287.3882
+amcnd false 2873.98
+akscnj true 5872.772
+dijncd false 2938.772
+GENERATE FOR hi bst INDEX ON doub
+DELETE FROM hi WHERE no = false
+PRINT FROM hi 1 name WHERE doub > 300
+INSERT INTO hi 3 ROWS
+nfcjn true 2983.828
+djnc true 43.298
+adnf true 54.90
+PRINT FROM hi 1 truth WHERE doub = 2938.772
+GENERATE FOR hi bst INDEX ON doub
+DELETE FROM hi WHERE name > jandc
+GENERATE FOR hi hash INDEX ON name
+PRINT FROM hi 1 doub WHERE name > boom
+QUIT

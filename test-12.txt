@@ -1,0 +1,35 @@
+#test test test
+CREATE employees 4 string bool double int name active salary years
+CREATE departments 4 string bool double int dept profitable budget staff
+#test test tes
+INSERT INTO employees 8 ROWS
+John true 85000.50 5
+Jane false 92000.75 2
+Bob true 78000.25 10
+Alice true 110000.00 7
+Mike false 65000.00 1
+Sarah true 95000.58 3
+Tom false 72000.323 4
+Emma true 88000.99 6
+#test test tes
+INSERT INTO departments 8 ROWS
+Engineering true 500000.00 15
+Marketing false 300000.00 8
+Sales true 450000.00 12
+HR false 200000.00 5
+Finance true 350000.00 7
+IT true 400000.00 10
+Operations false 250000.00 6
+Research true 150000.00 3
+#test test tes
+GENERATE FOR employees bst INDEX ON years
+GENERATE FOR departments bst INDEX ON staff
+DELETE FROM employees WHERE name = Bob
+#test test tes
+JOIN employees AND departments WHERE years = staff AND PRINT 3 name 1 dept 2 years 1
+JOIN employees AND departments WHERE active = profitable AND PRINT 3 name 1 dept 2 salary 1
+DELETE FROM employees WHERE salary > 85000.75
+GENERATE FOR employees hash INDEX ON salary
+PRINT FROM employees 2 active years WHERE salary = 110000.00
+PRINT FROM employees 2 active years WHERE salary < 110000.00
+QUIT

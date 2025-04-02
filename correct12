@@ -1,0 +1,55 @@
+% % New table employees with column(s) name active salary years created
+% New table departments with column(s) dept profitable budget staff created
+% % Added 8 rows to employees from position 0 to 7
+% % Added 8 rows to departments from position 0 to 7
+% % Generated bst index for table employees on column years, with 8 distinct keys
+% Generated bst index for table departments on column staff, with 8 distinct keys
+% Deleted 1 rows from employees
+% % name dept years 
+John HR 5 
+Alice Finance 7 
+Sarah Research 3 
+Emma Operations 6 
+Printed 4 rows from joining employees to departments
+% name dept salary 
+John Engineering 85000.5 
+John Sales 85000.5 
+John Finance 85000.5 
+John IT 85000.5 
+John Research 85000.5 
+Jane Marketing 92000.8 
+Jane HR 92000.8 
+Jane Operations 92000.8 
+Alice Engineering 110000 
+Alice Sales 110000 
+Alice Finance 110000 
+Alice IT 110000 
+Alice Research 110000 
+Mike Marketing 65000 
+Mike HR 65000 
+Mike Operations 65000 
+Sarah Engineering 95000.5 
+Sarah Sales 95000.5 
+Sarah Finance 95000.5 
+Sarah IT 95000.5 
+Sarah Research 95000.5 
+Tom Marketing 72000.3 
+Tom HR 72000.3 
+Tom Operations 72000.3 
+Emma Engineering 88000.9 
+Emma Sales 88000.9 
+Emma Finance 88000.9 
+Emma IT 88000.9 
+Emma Research 88000.9 
+Printed 29 rows from joining employees to departments
+% Deleted 4 rows from employees
+% Generated hash index for table employees on column salary, with 3 distinct keys
+% active years 
+Printed 0 matching rows from employees
+% active years 
+true 5 
+false 1 
+false 4 
+Printed 3 matching rows from employees
+% Thanks for being silly!
+

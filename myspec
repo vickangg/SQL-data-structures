@@ -11,10 +11,10 @@ Sith victorious
 Printed 5 matching rows from 281class
 % New table pets with column(s) Name likes_cats? likes_dogs? created
 % Added 2 rows to pets from position 0 to 1
-% Name emotion likes_dogs?
-Sith happy true
-Sith victorious true
-Paoletti stressed false
+% Name emotion likes_dogs? 
+Sith happy true 
+Sith victorious true 
+Paoletti stressed false 
 Printed 3 rows from joining pets to 281class
 % Table pets removed
 % Table 281class removed

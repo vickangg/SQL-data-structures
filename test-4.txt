@@ -1,22 +1,45 @@
-# test test
-CREATE universities 4 string string int bool name state established public
-CREATE planets 3 string float bool name mass has_rings
-CREATE employees 2 string int name salary
-DELETE FROM departments WHERE name = "HR"
-INSERT INTO universities 4 ROWS
-Georgia Georgia 1885 true
-MIT Massachusetts 1861 true
-Liberty Virginia 1971 false
-Berea Kentucky 1855 false
-INSERT INTO planets 2 ROWS
-Saturn 568.34 true
-Mars 0.642 false
-PRINT FROM universities 2 name state ALL
-PRINT FROM planets 3 name mass has_rings WHERE has_rings = true
-PRINT FROM planets 4 name mass has_rings dummy ALL
-INSERT INTO employees 3 ROWS
-Alice 85000
-Bob 92000
-Charlie 76000
-PRINT FROM employees 2 name salary WHERE salary > 80000
+# test testt test done
+CREATE boom 3 int string bool int1 string1 yes
+INSERT INTO boom 11 ROWS
+10 hi true
+10 bye true
+11 adios false
+12 hola false
+11 blah false
+12 blahblah true
+11 bleh true
+10 blehbleh false
+10 bloh false
+10 blihblih true
+10 blih true
+DELETE FROM boom WHERE int1 = 11
+DELETE FROM boom WHERE yes = true
+GENERATE FOR boom bst INDEX ON int1
+GENERATE FOR boom hash INDEX ON string1
+PRINT FROM boom 3 yes int1 string1 ALL
+DELETE FROM boom WHERE bool = true
+CREATE baam 4 bool int string double yes2 int2 string2 doub
+INSERT INTO baam 5 ROWS
+true 12 baam 45.4
+false 11 bam 43.2
+false 10 boom 32.3
+true 10 think 293.0
+true 12 baaam 38.2
+JOIN boom AND baam WHERE int1 = int2 AND PRINT 2 string1 1 string2 2 
+GENERATE FOR baam bst INDEX ON doub
+INSERT INTO baam 3 ROWS
+true 12 buh 29.3
+true 13 buhh 28.43
+true 10 huh 29.1
+PRINT FROM baam 1 string2 WHERE int2 > 11
+GENERATE FOR baam bst INDEX ON doub
+GENERATE FOR baam hash INDEX ON doub
+DELETE FROM baam WHERE yes2 = true
+INSERT INTO baam 2 ROWS
+false 11 yay 28.34
+true 10 yayy 28.13
+PRINT FROM baam 2 yes2 string2 WHERE int2 > 10
+PRINT FROM baam 2 doub string2 WHERE doub < 45.5
+REMOVE boom
+REMOVE baam
 QUIT

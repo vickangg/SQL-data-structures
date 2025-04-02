@@ -1,0 +1,22 @@
+% % New table 281class with column(s) one two three four created
+% Added 7 rows to 281class from position 0 to 6
+% Generated bst index for table 281class on column two, with 7 distinct keys
+% Generated hash index for table 281class on column four, with 7 distinct keys
+% four 
+poli 
+reufn 
+ncjsu 
+wiru 
+Printed 4 matching rows from 281class
+% Generated hash index for table 281class on column one, with 7 distinct keys
+% four 
+reufn 
+Printed 1 matching rows from 281class
+% Added 3 rows to 281class from position 7 to 9
+% % New table 281class3 with column(s) emotion person Y/N created
+% New table cities with column(s) name state population area is_capital? created
+% New table pets with column(s) name likes_cats? likes_dogs? created
+% New table cartoon_characters with column(s) name created
+% Table cities removed
+% Table pets removed
+% Thanks for being silly!

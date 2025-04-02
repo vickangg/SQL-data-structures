@@ -1,0 +1,33 @@
+# done
+CREATE random 3 int string bool int1 string1 no
+INSERT INTO random 8 ROWS
+22 macjndj false
+22 beajndcij false
+23 penjdn false
+22 moanjcn true
+22 mapjcnd true
+22 bqjnjd false
+24 siwmf false
+23 phamciw false
+DELETE FROM random WHERE no = true
+GENERATE FOR random hash INDEX ON int1
+GENERATE FOR random bst INDEX ON string1
+PRINT FROM random 3 int1 string1 no ALL
+CREATE random2 3 int string bool int2 string2 yes
+INSERT INTO random2 6 ROWS
+23 pacjidfj true
+22 bqjnjd true
+22 kozmodosm true
+22 wkaokc false
+22 beajndcij true
+22 blcoaje false
+JOIN random AND random2 WHERE string1 = int2 AND PRINT 3 string1 1 yes 2 string2 2
+GENERATE FOR random2 bst INDEX ON string2
+INSERT INTO random2 2 ROWS
+22 macjndj false
+23 scpwdmk true
+PRINT FROM random2 3 int2 string2 yes WHERE string2 > 21
+DELETE FROM random2 WHERE string2 < 3
+REMOVE random
+REMOVE random2
+QUIT

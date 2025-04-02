@@ -1,19 +1,31 @@
-#Awesome Spec Example!
-CREATE 281class 4 int int double string one two three four
-INSERT INTO 281class 7 ROWS
-237 2983 81.92 poli
-19 282 991.00 ancuds
-123 927 37.2 reufn
-0192 473 82.3 ncjsu
-8483 7621 9287.8 afhi
-384 213 34.25 baie
-362 87 2.9 wiru
-GENERATE FOR 281class bst INDEX ON two
-GENERATE FOR 281class hash INDEX ON four
-PRINT FROM 281class 1 four WHERE four > bop 
+CREATE students 2 string int name age
+CREATE grades 2 string string student course
+INSERT INTO students 3 ROWS
+Alice 20
+Bob 22
+Charlie 21
+INSERT INTO grades 3 ROWS
+Alice Math
+Bob Physics
+Alice History
+GENERATE FOR grades bst INDEX ON course
+REMOVE grades
+DELETE FROM students WHERE name = Alice
+DELETE FROM students WHERE name = Charlie
+INSERT INTO students 2 ROWS
+nasdcj 10
+ackjn 45
+PRINT FROM students 2 name age ALL
+# Checkpoint file 2: # (comment), CREATE, INSERT, PRINT ... ALL, REMOVE, QUIT
+CREATE cities 5 string string int double bool name state population area is_capital?
+INSERT INTO cities 7 ROWS
+Ann_Arbor Michigan 120782 28.69 false
+Lansing Michigan 116020 36.68 true
+Miami Florida 453579 55.25 false
+San_Francisco California 864816 46.87 false
+Albany New_York 98111 21.93 true
+Chicago Illinois 2705000 234 false
+St_Louis Missouri 315685 65.98 false
+PRINT FROM cities 2 name state ALL
+REMOVE cities
 QUIT
-# moremore more
-CREATE 2class 4 int int double string one two three four
-INSERT INTO 281class 2 ROWS
-237 2983 81.92 poli
-19 282 991.00 ancuds

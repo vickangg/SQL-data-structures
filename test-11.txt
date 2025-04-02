@@ -1,0 +1,33 @@
+# test tes twe s trs done
+#test test est test 
+CREATE first 9 string bool double int string string string double int string1 yes doub int1 string2 string3 string4 doubb intt 
+INSERT INTO first 7 ROWS
+alpha true 123.45 42 quick brown fox 9.99 7
+beta false 67.89 100 lazy dog jumps 12.34 2
+gamma true 999.99 3 fast turtle crawls 0.99 10
+delta false 123.45 777 slow rabbit hops 45.67 4
+epsilon true 123.45 69 crazy penguin slides 6.28 8
+zeta false 100.01 33 angry unicorn flies 33.33 5
+eta true 0.001 999 sleepy dragon snores 99.99 1
+INSERT INTO first 8 ROWS
+theta false 0.0 0 empty void null 0.0 0
+iota true 999999.999 2147483647 maximum value test 999999.999 2147483647
+kappa false -123.45 -99 negative values here -98.76 -5
+lambda true 1.79769 1 huge double check 1.79769 1
+mu false 2.22507 0 tiny double test 2.22507 0
+nu true 123.2 100000 scientific notation bro 456.12 100
+xi false 3.141592653589793 314159 pi calculation hello 2.718281828459045 271828
+omicron true 0.000000001 1 nano_scale test guess 0.000000001 1
+PRINT FROM first 3 yes doub doubb ALL
+GENERATE FOR first hash INDEX ON string1
+PRINT FROM first 4 int1 string1 string2 intt WHERE intt > 100
+GENERATE FOR first bst INDEX ON doubb
+PRINT FROM first 3 string3 yes int1 WHERE yes = false
+GENERATE FOR first bst INDEX ON int1
+DELETE FROM first WHERE int1 < 0
+PRINT FROM first 4 yes int1 string2 string1 WHERE string2 = sleepy
+GENERATE FOR first hash INDEX ON doub
+DELETE FROM first WHERE doub > 40
+PRINT FROM first 5 string1 string2 string3 yes string4 WHERE intt > 10000
+REMOVE first
+QUIT
