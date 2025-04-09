@@ -1,45 +1,76 @@
-# test testt test done
-CREATE boom 3 int string bool int1 string1 yes
-INSERT INTO boom 11 ROWS
-10 hi true
-10 bye true
-11 adios false
-12 hola false
-11 blah false
-12 blahblah true
-11 bleh true
-10 blehbleh false
-10 bloh false
-10 blihblih true
-10 blih true
-DELETE FROM boom WHERE int1 = 11
-DELETE FROM boom WHERE yes = true
-GENERATE FOR boom bst INDEX ON int1
-GENERATE FOR boom hash INDEX ON string1
-PRINT FROM boom 3 yes int1 string1 ALL
-DELETE FROM boom WHERE bool = true
-CREATE baam 4 bool int string double yes2 int2 string2 doub
-INSERT INTO baam 5 ROWS
-true 12 baam 45.4
-false 11 bam 43.2
-false 10 boom 32.3
-true 10 think 293.0
-true 12 baaam 38.2
-JOIN boom AND baam WHERE int1 = int2 AND PRINT 2 string1 1 string2 2 
-GENERATE FOR baam bst INDEX ON doub
-INSERT INTO baam 3 ROWS
-true 12 buh 29.3
-true 13 buhh 28.43
-true 10 huh 29.1
-PRINT FROM baam 1 string2 WHERE int2 > 11
-GENERATE FOR baam bst INDEX ON doub
-GENERATE FOR baam hash INDEX ON doub
-DELETE FROM baam WHERE yes2 = true
-INSERT INTO baam 2 ROWS
-false 11 yay 28.34
-true 10 yayy 28.13
-PRINT FROM baam 2 yes2 string2 WHERE int2 > 10
-PRINT FROM baam 2 doub string2 WHERE doub < 45.5
-REMOVE boom
-REMOVE baam
+CREATE one 3 string string double string1 str doub
+CREATE two 2 string string string2 string3
+JOIN one AND two WHERE str = string3 AND PRINT 3 doub 1 string2 2 string1 1
+INSERT INTO one 17 ROWS
+red color 2.99
+orange color 5.99
+yellow color 7.99
+green color 3.99
+blue color 3.00
+purple shade 4.99
+pink shade 0.99
+fuschia shade 4.99
+dandelion shade 4.99
+electric shade 3.99
+neon shade 6.99
+skyblue shade 2.99
+babyblue hue 9.99
+babypurple hue 2.99
+babypink hue 1.99
+babyyellow hue 3.99
+babyorange hue 3.99
+JOIN one AND two WHERE str = string3 AND PRINT 3 doub 1 string2 2 string1 1
+DELETE FROM one WHERE price < 100
+INSERT INTO two 17 ROWS
+library shade
+gym color
+room hue
+hall shade
+hallway color
+wall shade
+locker hue
+cafeteria shade
+lunch color
+dinner hue
+breakfast shade
+sport color
+soccer hue
+basketball hue
+track shade
+field color
+lacrosse shade
+JOIN one AND two WHERE str = string3 AND PRINT 3 doub 1 string2 2 string1 1
+INSERT INTO one 17 ROWS
+red color 2.99
+orange color 5.99
+yellow color 7.99
+green color 3.99
+blue color 3.00
+purple shade 4.99
+pink shade 0.99
+fuschia shade 4.99
+dandelion shade 4.99
+electric shade 3.99
+neon shade 6.99
+skyblue shade 2.99
+babyblue hue 9.99
+babypurple hue 2.99
+babypink hue 1.99
+babyyellow hue 3.99
+babyorange hue 3.99
+JOIN one AND two WHERE str = string3 AND PRINT 3 doub 1 string2 2 string1 1
+JOIN one AND two WHERE str = string2 AND PRINT 3 doub 1 string2 2 string1 1
+GENERATE FOR one hash INDEX ON str
+JOIN one AND two WHERE str = string3 AND PRINT 3 doub 1 string2 2 string1 1
+JOIN two AND one WHERE string3 = str AND PRINT 3 doub 1 string2 2 string1 1
+GENERATE FOR one bst INDEX ON str
+JOIN one AND two WHERE str = string3 AND PRINT 3 doub 1 string2 2 string1 1
+JOIN two AND one WHERE string3 = str AND PRINT 3 doub 1 string2 2 string1 1
+GENERATE FOR two hash INDEX ON blank
+JOIN one AND two WHERE str = string3 AND PRINT 3 doub 1 string2 2 string1 1
+JOIN two AND one WHERE string3 = str AND PRINT 3 doub 1 string2 2 string1 1
+INSERT INTO test 10 ROWS
+PRINT FROM testing 3 blanks slate blah ALL
+REMOVE nonexist
+test invalid
 QUIT

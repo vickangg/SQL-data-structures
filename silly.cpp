@@ -227,14 +227,7 @@ public:
         database[insertTable].currentIndex += rows;
         cout << database[insertTable].currentIndex - 1 << "\n";
 
-        if (!database[insertTable].hashIndex.empty())
-        {
-            buildIndex(database[insertTable]);
-        }
-        else if (!database[insertTable].bstIndex.empty())
-        {
-            buildIndex(database[insertTable]);
-        }
+        buildIndex(database[insertTable]);
     }
 
     void print()
@@ -320,7 +313,7 @@ public:
 
             if (table.indexedColumn == colname)
             {
-                if (table.indexType == "hash" && op == "=" && !table.hashIndex.empty())
+                if (table.indexType == "hash" && op == "=")
                 {
                     auto it = table.hashIndex.find(value);
                     if (it != table.hashIndex.end())
@@ -331,7 +324,7 @@ public:
                     sort(rowsToPrint.begin(), rowsToPrint.end());
                 }
 
-                else if (table.indexType == "bst" && !table.bstIndex.empty())
+                else if (table.indexType == "bst")
                 {
                     if (op == "=")
                     {
@@ -516,7 +509,7 @@ public:
                 }
                 sort(rowsToDelete.begin(), rowsToDelete.end());
             }
-            //sort(rowsToDelete.begin(), rowsToDelete.end());
+            // sort(rowsToDelete.begin(), rowsToDelete.end());
 
             else if (table.indexType == "bst")
             {
@@ -577,137 +570,129 @@ public:
         }
 
         else
+        {
+            for (uint32_t i = 0; i < table.rows.size(); i++)
             {
-                for (uint32_t i = 0; i < table.rows.size(); i++)
+                auto &rowVal = table.rows[i][condColIndex];
+                bool match = false;
+
+                if (op == "=")
                 {
-                    auto &rowVal = table.rows[i][condColIndex];
-                    bool match = false;
+                    match = rowVal == value;
+                }
+                else if (op == "<")
+                {
+                    match = rowVal < value;
+                }
+                else if (op == ">")
+                {
+                    match = rowVal > value;
+                }
 
-                    if (op == "=")
-                    {
-                        match = rowVal == value;
-                    }
-                    else if (op == "<")
-                    {
-                        match = rowVal < value;
-                    }
-                    else if (op == ">")
-                    {
-                        match = rowVal > value;
-                    }
-
-                    if (match)
-                    {
-                        rowsToDelete.push_back(i);
-                    }
+                if (match)
+                {
+                    rowsToDelete.push_back(i);
                 }
             }
-
-            sort(rowsToDelete.rbegin(), rowsToDelete.rend());
-
-            for (uint32_t rowIdx : rowsToDelete)
-            {
-                table.rows.erase(table.rows.begin() + rowIdx);
-            }
-
-            if (!database[tableName].hashIndex.empty())
-            {
-                buildIndex(table);
-            }
-            else if (!database[tableName].bstIndex.empty())
-            {
-                buildIndex(table);
-            }
-
-            cout << "Deleted " << rowsToDelete.size() << " rows from " << tableName << "\n";
-            database[tableName].currentIndex -= static_cast<uint32_t>(rowsToDelete.size());
         }
 
-        void join()
+        sort(rowsToDelete.rbegin(), rowsToDelete.rend());
+
+        for (uint32_t rowIdx : rowsToDelete)
         {
-            string table1;
-            string table2;
-            string col1;
-            string col2;
-            cin >> table1 >> command >> table2 >> command >> col1 >> command >> col2 >> command;
+            table.rows.erase(table.rows.begin() + rowIdx);
+        }
 
-            if (database.find(table1) == database.end())
+        buildIndex(table);
+
+        cout << "Deleted " << rowsToDelete.size() << " rows from " << tableName << "\n";
+        database[tableName].currentIndex -= static_cast<uint32_t>(rowsToDelete.size());
+    }
+
+    void join()
+    {
+        string table1;
+        string table2;
+        string col1;
+        string col2;
+        cin >> table1 >> command >> table2 >> command >> col1 >> command >> col2 >> command;
+
+        if (database.find(table1) == database.end())
+        {
+            cout << "Error during JOIN: " << table1 << " does not name a table in the database\n";
+            getline(cin, command);
+            return;
+        }
+        if (database.find(table2) == database.end())
+        {
+            cout << "Error during JOIN: " << table2 << " does not name a table in the database\n";
+            getline(cin, command);
+            return;
+        }
+
+        Table &t1 = database[table1];
+        Table &t2 = database[table2];
+        //buildIndex(t2);
+
+        auto col1It = find(t1.colnames.begin(), t1.colnames.end(), col1);
+        if (col1It == t1.colnames.end())
+        {
+            cout << "Error during JOIN: " << col1 << " does not name a column in " << table1 << "\n";
+            getline(cin, command);
+            return;
+        }
+        size_t col1Idx = static_cast<size_t>(distance(t1.colnames.begin(), col1It));
+
+        auto col2It = find(t2.colnames.begin(), t2.colnames.end(), col2);
+        if (col2It == t2.colnames.end())
+        {
+            cout << "Error during JOIN: " << col2 << " does not name a column in " << table2 << "\n";
+            getline(cin, command);
+            return;
+        }
+        size_t col2Idx = static_cast<size_t>(distance(t2.colnames.begin(), col2It));
+
+        uint32_t numPrintCols;
+        cin >> command >> numPrintCols;
+
+        vector<pair<string, uint32_t>> printColumns;
+        for (uint32_t i = 0; i < numPrintCols; i++)
+        {
+            string colName;
+            uint32_t tableNum;
+            cin >> colName >> tableNum;
+
+            if (tableNum == 1)
             {
-                cout << "Error during JOIN: " << table1 << " does not name a table in the database\n";
-                getline(cin, command);
-                return;
-            }
-            if (database.find(table2) == database.end())
-            {
-                cout << "Error during JOIN: " << table2 << " does not name a table in the database\n";
-                getline(cin, command);
-                return;
-            }
-
-            Table &t1 = database[table1];
-            Table &t2 = database[table2];
-
-            auto col1It = find(t1.colnames.begin(), t1.colnames.end(), col1);
-            if (col1It == t1.colnames.end())
-            {
-                cout << "Error during JOIN: " << col1 << " does not name a column in " << table1 << "\n";
-                getline(cin, command);
-                return;
-            }
-            size_t col1Idx = static_cast<size_t>(distance(t1.colnames.begin(), col1It));
-
-            auto col2It = find(t2.colnames.begin(), t2.colnames.end(), col2);
-            if (col2It == t2.colnames.end())
-            {
-                cout << "Error during JOIN: " << col2 << " does not name a column in " << table2 << "\n";
-                getline(cin, command);
-                return;
-            }
-            size_t col2Idx = static_cast<size_t>(distance(t2.colnames.begin(), col2It));
-
-            uint32_t numPrintCols;
-            cin >> command >> numPrintCols;
-
-            vector<pair<string, uint32_t>> printColumns;
-            for (uint32_t i = 0; i < numPrintCols; i++)
-            {
-                string colName;
-                uint32_t tableNum;
-                cin >> colName >> tableNum;
-
-                if (tableNum == 1)
+                auto it = find(t1.colnames.begin(), t1.colnames.end(), colName);
+                if (it == t1.colnames.end())
                 {
-                    auto it = find(t1.colnames.begin(), t1.colnames.end(), colName);
-                    if (it == t1.colnames.end())
-                    {
-                        cout << "Error during JOIN: " << colName << " does not name a column in " << table1 << "\n";
-                        getline(cin, command);
-                        return;
-                    }
+                    cout << "Error during JOIN: " << colName << " does not name a column in " << table1 << "\n";
+                    getline(cin, command);
+                    return;
                 }
-                else if (tableNum == 2)
-                {
-                    auto it = find(t2.colnames.begin(), t2.colnames.end(), colName);
-                    if (it == t2.colnames.end())
-                    {
-                        cout << "Error during JOIN: " << colName << " does not name a column in " << table2 << "\n";
-                        getline(cin, command);
-                        return;
-                    }
-                }
-                printColumns.emplace_back(colName, tableNum);
             }
-
-            vector<vector<string>> outputRows;
-            unordered_map<variant<int, double, bool, string>, vector<uint32_t>> tempHash; // Key: join value, Value: row indices in t2
-
-            if (t2.hashIndex.empty() || t2.indexedColumn != col2)
+            else if (tableNum == 2)
             {
-                for (uint32_t i = 0; i < t2.rows.size(); ++i)
+                auto it = find(t2.colnames.begin(), t2.colnames.end(), colName);
+                if (it == t2.colnames.end())
                 {
-                    const auto &val = t2.rows[i][col2Idx];
-                    string key = visit([](const auto &val) -> string
-                                       {
+                    cout << "Error during JOIN: " << colName << " does not name a column in " << table2 << "\n";
+                    getline(cin, command);
+                    return;
+                }
+            }
+            printColumns.emplace_back(colName, tableNum);
+        }
+
+        vector<vector<string>> outputRows;
+        unordered_map<variant<int, double, bool, string>, vector<uint32_t>> tempHash; // Key: join value, Value: row indices in t2
+
+        for (uint32_t i = 0; i < t2.rows.size(); ++i)
+            {
+                const auto &val = t2.rows[i][col2Idx];
+                string key = visit([](const auto &val) -> string
+                                   {
             using T = decay_t<decltype(val)>;
             if constexpr (is_same_v<T, int>) {
                 return to_string(val);
@@ -726,18 +711,15 @@ public:
             else if constexpr (is_same_v<T, bool>) return val ? "true" : "false";
             else if constexpr (is_same_v<T, string>) return val;
             return ""; }, val);
-                    tempHash[key].push_back(i);
-                }
+                tempHash[key].push_back(i);
             }
 
-            if (t2.indexedColumn == col2 && t2.indexType == "hash")
+        for (const auto &row1 : t1.rows)
             {
-                for (const auto &row1 : t1.rows)
-                {
-                    const auto &val1 = row1[col1Idx];
+                const auto &val1 = row1[col1Idx];
 
-                    string key = visit([](const auto &val) -> string
-                                       {
+                string key = visit([](const auto &val) -> string
+                                   {
             using T = decay_t<decltype(val)>;
             if constexpr (is_same_v<T, int>) {
                 return to_string(val);
@@ -761,27 +743,27 @@ public:
             }
             return ""; }, val1);
 
-                    if (t2.hashIndex.find(key) != t2.hashIndex.end())
+                if (tempHash.find(key) != tempHash.end())
+                {
+                    for (uint32_t row2Idx : tempHash.at(key))
                     {
-                        for (uint32_t row2Idx : t2.hashIndex.at(key))
+                        const auto &row2 = t2.rows[row2Idx];
+                        vector<string> outputRow;
+
+                        for (const auto &[colName, tableNum] : printColumns)
                         {
-                            const auto &row2 = t2.rows[row2Idx];
-                            vector<string> outputRow;
+                            const Table &t = (tableNum == 1) ? t1 : t2;
 
-                            for (const auto &[colName, tableNum] : printColumns)
+                            size_t colIdx = 0;
+                            for (; colIdx < t.colnames.size(); ++colIdx)
                             {
-                                const Table &t = (tableNum == 1) ? t1 : t2;
+                                if (t.colnames[colIdx] == colName)
+                                    break;
+                            }
 
-                                size_t colIdx = 0;
-                                for (; colIdx < t.colnames.size(); ++colIdx)
-                                {
-                                    if (t.colnames[colIdx] == colName)
-                                        break;
-                                }
-
-                                const auto &cell = (tableNum == 1) ? row1[colIdx] : row2[colIdx];
-                                string valStr = visit([](const auto &val) -> string
-                                                      {
+                            const auto &cell = (tableNum == 1) ? row1[colIdx] : row2[colIdx];
+                            string valStr = visit([](const auto &val) -> string
+                                                  {
                         using T = decay_t<decltype(val)>;
                         if constexpr (is_same_v<T, int>) {
                             return to_string(val);
@@ -805,260 +787,175 @@ public:
                         }
                         return ""; }, cell);
 
-                                outputRow.push_back(valStr);
-                            }
-
-                            outputRows.push_back(outputRow);
+                            outputRow.push_back(valStr);
                         }
+
+                        outputRows.push_back(outputRow);
                     }
                 }
             }
 
-            else
+        if (!quiet)
+        {
+            for (uint32_t i = 0; i < printColumns.size(); i++)
             {
-                for (const auto &row1 : t1.rows)
-                {
-                    const auto &val1 = row1[col1Idx];
-
-                    string key = visit([](const auto &val) -> string
-                                       {
-            using T = decay_t<decltype(val)>;
-            if constexpr (is_same_v<T, int>) {
-                return to_string(val);
+                cout << printColumns[i].first << " ";
             }
-            else if constexpr (is_same_v<T, double>) {
-                string s = to_string(val);
-                
-                s.erase(s.find_last_not_of('0') + 1, string::npos);
-                
-                if (!s.empty() && s.back() == '.') {
-                    s.pop_back();
-                }
-                
-                return s;
-            }
-            else if constexpr (is_same_v<T, bool>) {
-                return val ? "true" : "false";
-            }
-            else if constexpr (is_same_v<T, string>) {
-                return val;
-            }
-            return ""; }, val1);
+            cout << "\n";
 
-                    if (tempHash.find(key) != tempHash.end())
-                    {
-                        for (uint32_t row2Idx : tempHash.at(key))
-                        {
-                            const auto &row2 = t2.rows[row2Idx];
-                            vector<string> outputRow;
-
-                            for (const auto &[colName, tableNum] : printColumns)
-                            {
-                                const Table &t = (tableNum == 1) ? t1 : t2;
-
-                                size_t colIdx = 0;
-                                for (; colIdx < t.colnames.size(); ++colIdx)
-                                {
-                                    if (t.colnames[colIdx] == colName)
-                                        break;
-                                }
-
-                                const auto &cell = (tableNum == 1) ? row1[colIdx] : row2[colIdx];
-                                string valStr = visit([](const auto &val) -> string
-                                                      {
-                        using T = decay_t<decltype(val)>;
-                        if constexpr (is_same_v<T, int>) {
-                            return to_string(val);
-                        }
-                        else if constexpr (is_same_v<T, double>) {
-                            string s = to_string(val);
-                            
-                            s.erase(s.find_last_not_of('0') + 1, string::npos);
-                            
-                            if (!s.empty() && s.back() == '.') {
-                                s.pop_back();
-                            }
-                            
-                            return s;
-                        }
-                        else if constexpr (is_same_v<T, bool>) {
-                            return val ? "true" : "false";
-                        }
-                        else if constexpr (is_same_v<T, string>) {
-                            return val;
-                        }
-                        return ""; }, cell);
-
-                                outputRow.push_back(valStr);
-                            }
-
-                            outputRows.push_back(outputRow);
-                        }
-                    }
-                }
-            }
-
-            if (!quiet)
+            for (auto &row : outputRows)
             {
-                for (uint32_t i = 0; i < printColumns.size(); i++)
+                for (uint32_t i = 0; i < row.size(); i++)
                 {
-                    cout << printColumns[i].first << " ";
+                    cout << row[i] << " ";
                 }
                 cout << "\n";
-
-                for (auto &row : outputRows)
-                {
-                    for (uint32_t i = 0; i < row.size(); i++)
-                    {
-                        cout << row[i] << " ";
-                    }
-                    cout << "\n";
-                }
-            }
-
-            cout << "Printed " << outputRows.size() << " rows from joining " << table1 << " to " << table2 << "\n";
-        }
-
-        void buildIndex(Table & table)
-        {
-            table.hashIndex.clear();
-            table.bstIndex.clear();
-
-            if (table.indexedColumn.empty())
-                return;
-
-            auto colIt = find(table.colnames.begin(), table.colnames.end(), table.indexedColumn);
-            size_t colIdx = static_cast<size_t>(distance(table.colnames.begin(), colIt));
-
-            if (table.indexType == "hash")
-            {
-                for (uint32_t i = 0; i < table.rows.size(); i++)
-                {
-                    auto &key = table.rows[i][colIdx];
-                    table.hashIndex[key].push_back(i);
-                }
-            }
-            else if (table.indexType == "bst")
-            {
-                for (uint32_t i = 0; i < table.rows.size(); i++)
-                {
-                    auto &key = table.rows[i][colIdx];
-                    table.bstIndex[key].push_back(i);
-                }
             }
         }
 
-        void userGenerate()
+        buildIndex(t2);
+
+        cout << "Printed " << outputRows.size() << " rows from joining " << table1 << " to " << table2 << "\n";
+    }
+
+    void buildIndex(Table &table)
+    {
+        table.hashIndex.clear();
+        table.bstIndex.clear();
+
+        if (table.indexedColumn.empty())
+                return;
+
+        auto colIt = find(table.colnames.begin(), table.colnames.end(), table.indexedColumn);
+        size_t colIdx = static_cast<size_t>(distance(table.colnames.begin(), colIt));
+
+        if (table.indexType == "hash")
         {
-            string tableName;
-            string indexType;
-            string colName;
-            cin >> command >> tableName >> indexType >> command >> command >> colName;
-
-            if (database.find(tableName) == database.end())
+            for (uint32_t i = 0; i < table.rows.size(); i++)
             {
-                cout << "Error during GENERATE: " << tableName << " does not name a table in the database\n";
-                getline(cin, command);
+                auto &key = table.rows[i][colIdx];
+                table.hashIndex[key].push_back(i);
+            }
+        }
+        else if (table.indexType == "bst")
+        {
+            for (uint32_t i = 0; i < table.rows.size(); i++)
+            {
+                auto &key = table.rows[i][colIdx];
+                table.bstIndex[key].push_back(i);
+            }
+        }
+    }
+
+    void userGenerate()
+    {
+        string tableName;
+        string indexType;
+        string colName;
+        cin >> command >> tableName >> indexType >> command >> command >> colName;
+
+        if (database.find(tableName) == database.end())
+        {
+            cout << "Error during GENERATE: " << tableName << " does not name a table in the database\n";
+            getline(cin, command);
+            return;
+        }
+
+        Table &table = database[tableName];
+
+        auto colIt = find(table.colnames.begin(), table.colnames.end(), colName);
+        if (colIt == table.colnames.end())
+        {
+            cout << "Error during GENERATE: " << colName << " does not name a column in " << tableName << "\n";
+            getline(cin, command);
+            return;
+        }
+
+        table.indexedColumn = colName;
+        table.indexType = indexType;
+
+        buildIndex(table);
+
+        size_t distinctKeys = 0;
+        if (indexType == "hash")
+        {
+            distinctKeys = table.hashIndex.size();
+        }
+        else
+        {
+            distinctKeys = table.bstIndex.size();
+        }
+
+        cout << "Generated " << indexType << " index for table " << tableName
+             << " on column " << colName << ", with " << distinctKeys << " distinct keys\n";
+    }
+
+    void readIn()
+    {
+        do
+        {
+            if (cin.fail())
+            {
+                cerr << "Error: Reading from cin has failed" << endl;
+                exit(1);
+            }
+            cout << "% ";
+            cin >> command;
+
+            if (command == "CREATE")
+            {
+                create();
+            }
+            else if (command == "QUIT")
+            {
+                cout << "Thanks for being silly!" << endl;
                 return;
             }
-
-            Table &table = database[tableName];
-
-            auto colIt = find(table.colnames.begin(), table.colnames.end(), colName);
-            if (colIt == table.colnames.end())
+            else if (command.at(0) == '#')
             {
-                cout << "Error during GENERATE: " << colName << " does not name a column in " << tableName << "\n";
                 getline(cin, command);
-                return;
             }
-
-            table.indexedColumn = colName;
-            table.indexType = indexType;
-            table.hashIndex.clear();
-            table.bstIndex.clear();
-
-            buildIndex(table);
-
-            size_t distinctKeys = 0;
-            if (indexType == "hash")
+            else if (command == "REMOVE")
             {
-                distinctKeys = table.hashIndex.size();
+                remove();
+            }
+            else if (command == "INSERT")
+            {
+                insert();
+            }
+            else if (command == "PRINT")
+            {
+                print();
+            }
+            else if (command == "DELETE")
+            {
+                deleteRow();
+            }
+            else if (command == "JOIN")
+            {
+                join();
+            }
+            else if (command == "GENERATE")
+            {
+                userGenerate();
             }
             else
             {
-                distinctKeys = table.bstIndex.size();
+                cout << "Error: unrecognized command" << endl;
+                getline(cin, command);
             }
-
-            cout << "Generated " << indexType << " index for table " << tableName
-                 << " on column " << colName << ", with " << distinctKeys << " distinct keys\n";
-        }
-
-        void readIn()
-        {
-            do
-            {
-                if (cin.fail())
-                {
-                    cerr << "Error: Reading from cin has failed" << endl;
-                    exit(1);
-                }
-                cout << "% ";
-                cin >> command;
-
-                if (command == "CREATE")
-                {
-                    create();
-                }
-                else if (command == "QUIT")
-                {
-                    cout << "Thanks for being silly!" << endl;
-                    return;
-                }
-                else if (command.at(0) == '#')
-                {
-                    getline(cin, command);
-                }
-                else if (command == "REMOVE")
-                {
-                    remove();
-                }
-                else if (command == "INSERT")
-                {
-                    insert();
-                }
-                else if (command == "PRINT")
-                {
-                    print();
-                }
-                else if (command == "DELETE")
-                {
-                    deleteRow();
-                }
-                else if (command == "JOIN")
-                {
-                    join();
-                }
-                else if (command == "GENERATE")
-                {
-                    userGenerate();
-                }
-                else
-                {
-                    cout << "Error: unrecognized command" << endl;
-                    getline(cin, command);
-                }
-            } while (command != "QUIT");
-        }
-    };
-
-    int main(int argc, char *argv[])
-    {
-        ios_base::sync_with_stdio(false); // you should already have this
-        cin >> std::boolalpha;            // add these two lines
-        cout << std::boolalpha;
-
-        Silly sillyQL;
-        sillyQL.getMode(argc, argv);
-        sillyQL.readIn();
-        return 0;
+        } while (command != "QUIT");
     }
+};
+
+int main(int argc, char *argv[])
+{
+    ios_base::sync_with_stdio(false); // you should already have this
+    cin >> std::boolalpha;            // add these two lines
+    cout << std::boolalpha;
+
+    Silly sillyQL;
+    sillyQL.getMode(argc, argv);
+    sillyQL.readIn();
+    return 0;
+}

@@ -1,28 +1,78 @@
-#test test test test
-CREATE yeah 2 string string num1 num2
-INSERT INTO yeah 4 ROWS
-5 4
-4 3
-3 2
-2 5
-DELETE FROM yeah WHERE num1 > 4
-PRINT FROM yeah 1 num1 ALL
-DELETE FROM yeah WHERE num2 = 4
-PRINT FROM yeah 1 num2 ALL
-GENERATE FOR yeah bst INDEX ON num2
-JOIN yeah AND yeah WHERE num1 = num2 AND PRINT 1 num2 1
-DELETE yeah
-CREATE yuh 2 int string num3 kiki
-GENERATE FOR yuh bst INDEX ON num3
-GENERATE FOR yuh hash INDEX ON kiki
-INSERT INTO yuh 5 ROWS
-37 acknowledge
-29 akdjcn
-29 ncjsu
-102 fence
-283 fashion
-PRINT FROM yuh 2 kiki num3 WHERE num3 < 100
-GENERATE FOR yuh hash INDEX ON kiki
-PRINT FROM yuh 2 kiki num3 WHERE kiki = acknowledge
-PRINT FROM yuh 2 kiki num3 WHERE num3 = 29
+# test test test
+CREATE one 3 string string double string1 str doub
+CREATE two 2 string string string2 string3
+GENERATE FOR one bst INDEX ON string1
+GENERATE FOR two hash INDEX ON string3
+INSERT INTO one 17 ROWS
+red color 2.99
+orange color 5.99
+yellow color 7.99
+green color 3.99
+blue color 3.00
+purple shade 4.99
+pink shade 0.99
+fuschia shade 4.99
+dandelion shade 4.99
+electric shade 3.99
+neon shade 6.99
+skyblue shade 2.99
+babyblue hue 9.99
+babypurple hue 2.99
+babypink hue 1.99
+babyyellow hue 3.99
+babyorange hue 3.99
+DELETE FROM one WHERE doub < 3.99
+INSERT INTO two 17 ROWS
+bus shade
+car color
+train hue
+plane shade
+airplane color
+taxi shade
+uber hue
+lyft shade
+feet color
+shoe hue
+walk shade
+run color
+jog hue
+sprint hue
+hurdle shade
+long color
+short shade
+JOIN one AND two WHERE str = string3 AND PRINT 3 doub 1 string2 2 string1 1
+INSERT INTO one 17 ROWS
+red color 2.99
+orange color 5.99
+yellow color 7.99
+green color 3.99
+blue color 3.00
+purple shade 4.99
+pink shade 0.99
+fuschia shade 4.99
+dandelion shade 4.99
+electric shade 3.99
+neon shade 6.99
+skyblue shade 2.99
+babyblue hue 9.99
+babypurple hue 2.99
+babypink hue 1.99
+babyyellow hue 3.99
+babyorange hue 3.99
+JOIN one AND two WHERE str = string3 AND PRINT 3 doub 1 string2 2 string1 1
+JOIN one AND two WHERE str = string2 AND PRINT 3 doub 1 string2 2 string1 1
+DELETE FROM one WHERE doub > 7
+JOIN one AND two WHERE str = string3 AND PRINT 3 doub 1 string2 2 string1 1
+DELETE FROM two WHERE string2 < h
+JOIN one AND two WHERE str = string3 AND PRINT 3 doub 1 string2 2 string1 1
+INSERT INTO two 5 ROWS
+apple shade
+banana hue
+orange color
+grape color
+strawberry shade
+blueberry hue
+JOIN two AND one WHERE string3 = str AND PRINT 3 doub 2 string1 1 string2 2
+DELETE FROM two WHERE string3 = hue
+JOIN two AND one WHERE string3 = str AND PRINT 3 doub 2 string1 1 string2 2
 QUIT

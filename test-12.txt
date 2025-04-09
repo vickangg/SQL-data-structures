@@ -1,35 +1,38 @@
-#test test test
-CREATE employees 4 string bool double int name active salary years
-CREATE departments 4 string bool double int dept profitable budget staff
-#test test tes
-INSERT INTO employees 8 ROWS
-John true 85000.50 5
-Jane false 92000.75 2
-Bob true 78000.25 10
-Alice true 110000.00 7
-Mike false 65000.00 1
-Sarah true 95000.58 3
-Tom false 72000.323 4
-Emma true 88000.99 6
-#test test tes
-INSERT INTO departments 8 ROWS
-Engineering true 500000.00 15
-Marketing false 300000.00 8
-Sales true 450000.00 12
-HR false 200000.00 5
-Finance true 350000.00 7
-IT true 400000.00 10
-Operations false 250000.00 6
-Research true 150000.00 3
-#test test tes
-GENERATE FOR employees bst INDEX ON years
-GENERATE FOR departments bst INDEX ON staff
-DELETE FROM employees WHERE name = Bob
-#test test tes
-JOIN employees AND departments WHERE years = staff AND PRINT 3 name 1 dept 2 years 1
-JOIN employees AND departments WHERE active = profitable AND PRINT 3 name 1 dept 2 salary 1
-DELETE FROM employees WHERE salary > 85000.75
-GENERATE FOR employees hash INDEX ON salary
-PRINT FROM employees 2 active years WHERE salary = 110000.00
-PRINT FROM employees 2 active years WHERE salary < 110000.00
+ It creates a table with 4 columns and they all have different type. 
+ Then I insert some rows to it and I also have one command inserting a row 
+ to a table that does not exist in the database. I add print from where with 
+ different combinations of colname and op, including invalid colname, after 
+ inserting row. Then I create another table and do a join two table where the 
+ int value matches. Then I do some delete demand on both table with where 
+ colname = something. I really don't know which part finds the bug 8 and 15 
+ but hope it can help you.
+
+CREATE table 4 string bool int double random yes twenty point
+INSERT INTO table 5 ROWS
+coffee true 20 23.4
+drink true 13 24.5
+snack false 10 89.432
+cookie true 15 43.21
+fruit true 14 54.32
+INSERT INTO nonexistent 3 ROWS
+PRINT FROM table 2 random yes WHERE yes = true
+PRINT FROM table 2 random twenty WHERE point < 50.32
+PRINT FROM table 2 point yes WHERE random > print
+PRINT FROM table 2 twenty point WHERE twenty = 10
+INSERT INTO table 2 ROWS
+hit true 32 48.32
+block false 42 192.0
+PRINT FROM table 2 trick yes WHERE twenty > 12
+CREATE table2 string bool int double random2 yes2 twenty2 point2
+INSERT INTO table 5 ROWS
+drink true 20 23.4
+trick true 13 24.5
+coffee false 10 89.432
+brownie true 15 43.21
+cookie true 14 54.32
+JOIN table AND table2 WHERE twenty = twenty2 AND PRINT 3 yes 1 yes2 2 twenty 1
+DELETE FROM table WHERE point = 43.21
+DELETE FROM table WHERE point = 39209.23
+DELETE FROM table2 WHERE random2 = coffee
+DELETE FROM table2 WHERE twenty2 = 20
 QUIT

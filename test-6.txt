@@ -1,32 +1,72 @@
-CREATE yeah 3 string int bool string1 int1 non
-CREATE yuh 3 string int bool string2 int2 nonn
-INSERT INTO yeah 8 ROWS
-marty 2 false
-becca 2 false
-peep 3 false
-morp 2 true
-may 2 true
-blahg 2 false
-scoopy 4 false
-phineas 3 false
-INSERT INTO yuh 6 ROWS
-paul 3 true
-blahg 2 true
-koopa 2 true
-wharg 2 false
-becca 2 true
-bloop 2 false
-DELETE FROM yeah WHERE non = true
-GENERATE FOR yeah hash INDEX ON string1
-GENERATE FOR yeah bst INDEX ON int1
-PRINT FROM yeah 3 string1 int1 non ALL
-JOIN yeah AND yuh WHERE string1 = string2 AND PRINT 3 string1 1 nonn 2 int2 2
-GENERATE FOR yuh bst INDEX ON int2
-INSERT INTO yuh 2 ROWS
-marty 2 false
-scopr 3 true
-PRINT FROM yuh 3 string2 int2 nonn WHERE int2 > 1
-DELETE FROM yuh WHERE int2 < 3
-REMOVE yeah
-REMOVE yuh
+CREATE one 3 string string double string1 str doub
+CREATE two 2 string string string2 string3
+PRINT FROM one 2 str doub ALL
+INSERT INTO one 10 ROWS
+red color 2.99
+orange orange 5.99
+yellow yellow 7.99
+green color 3.99
+blue blue 3.00
+purple shade 4.99
+pink pink 0.99
+fuschia shade 4.99
+dandelion dandelion 4.99
+electric eletric 3.99
+INSERT INTO one 7 ROWS
+neon shade 6.99
+skyblue shade 2.99
+babyblue babyblue 9.99
+babypurple babyblue 2.99
+babypink hue 1.99
+babyyellow babyyellow 3.99
+babyorange hue 3.99
+GENERATE FOR one bst INDEX ON doub
+PRINT FROM one 3 string1 str doub WHERE doub > 3.5
+INSERT INTO one 4 ROWS
+white white 5.99
+black hue 3.00
+gray gray 4.99
+brown brown 3.99
+JOIN one AND one WHERE string1 = str AND PRINT 3 string1 1 doub 2 str 1
+GENERATE FOR one hash INDEX ON str
+JOIN one AND one WHERE string1 = str AND PRINT 3 string 1 doub 2 str 1
+INSERT INTO two 17 ROWS
+bus shade
+car color
+train hue
+plane shade
+airplane color
+taxi shade
+uber hue
+lyft shade
+feet color
+shoe hue
+walk shade
+run color
+jog hue
+sprint hue
+hurdle shade
+long color
+short shade
+JOIN one AND two WHERE str = string3 AND PRINT 3 string1 1 string3 2 doub 1
+GENERATE FOR two hash INDEX ON string3
+INSERT INTO two 9 ROWS
+car hue
+car color
+airplane color
+big ray
+tall ray
+skinny white
+wide hue
+narrow pink
+jump scream
+up black
+down shade
+JOIN one AND two WHERE str = string3 AND PRINT 2 string1 1 string3 2
+JOIN three AND two WHERE none = string2 AND PRINT 1 string2 2
+CREATE blank 2 string string womp boom
+JOIN two AND blank WHERE string2 = boom AND PRINT 1 string2 1
+JOIN two AND one WHERE string3 = str AND PRINT 2 string2 1 string3 1
+JOIN two AND one WHERE string3 = str AND PRINT 2 string1 2 string2 1
+JOIN two AND one WHERE string3 = str AND PRINT 2 string1 1 bad 2
 QUIT

@@ -1,44 +1,23 @@
-#Awesome Spec Example! done
-CREATE 281class 4 int int double string one two three four
-INSERT INTO 281class 7 ROWS
-237 2983 81.92 poli
-19 282 991.00 ancuds
-123 927 37.2 reufn
-0192 473 82.3 ncjsu
-8483 7621 9287.8 afhi
-384 213 34.25 baie
-362 87 2.9 wiru
-GENERATE FOR 281class bst INDEX ON two
-GENERATE FOR 281class hash INDEX ON four
-PRINT FROM 281class 1 four WHERE four > bop 
-GENERATE FOR 281class hash INDEX ON one
-JOIN 281class AND 281class WHERE one = two AND PRINT 3 one 1 three 1 two 1
-PRINT FROM 281class 1 four WHERE one = 123
-INSERT INTO 281class 3 ROWS
-374 29 928.394 jsdnc
-2938 89 822.2 fnj
-738 2938 88.32 smdc
-# Checkpoint file 1: # (comment), CREATE, REMOVE, QUIT
-CREATE 281class3 3 string string bool emotion person Y/N
-CREATE cities 5 string string int double bool name state population area is_capital?
-CREATE pets 3 string bool bool name likes_cats? likes_dogs?
-CREATE cartoon_characters 1 string name
-INSERT INTO pets 4 ROWS
-cute true true
-joy true true
-kid false true
-fire true false
-JOIN pets AND cartoon_characters WHERE likes_cats = name AND PRINT 2 name 1 likes_dogs 1 
-INSERT INTO cartoon_characters 3 ROWS
-billy
-trent
-guy
-GENERATE FOR cartoon_characters bst INDEX ON name
-JOIN pets AND pets WHERE likes_cats = likes_dogs AND PRINT 2 name 1 likes_dogs 1 
-GENERATE FOR pets hash INDEX ON likes_cats
-DELETE FROM pets WHERE name = kid
-DELETE FROM students WHERE name > fire
-PRINT FROM pets 1 name WHERE name < kid
-REMOVE cities
-REMOVE pets
+CREATE cars 4 string bool int double vendor yes miles price
+GENERATE FOR cars hash INDEX ON price
+INSERT INTO cars 7 ROWS
+chevy true 3000 300.5
+chevy false 7000 100.5
+chevy true 4000 600.99
+ford true 2000 600.99
+ford false 3000 400.60
+ford true 4000 300.99
+hyun false 3000 200.99
+GENERATE FOR cars bst INDEX on price
+INSERT INTO cars 8 ROWS
+toyo false 4000 300.5
+toyo true 3000 400.99
+toyo true 2000 400.99
+toyo true 5000 400.99
+toyo true 1000 400.99
+toyo true 1000 400.99
+toyo true 1000 400.99
+toyo true 1000 400.99
+PRINT FROM cars 2 vendor price WHERE price < 400.99
+PRINT FROM cars 2 vendor price WHERE price < 500.99
 QUIT

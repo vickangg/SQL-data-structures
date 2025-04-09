@@ -8,24 +8,40 @@ INSERT INTO grades 3 ROWS
 Alice Math
 Bob Physics
 Alice History
+GENERATE FOR students hash INDEX ON age
+PRINT FROM students 2 name age WHERE age > 21
+PRINT FROM students 2 name age WHERE name = Charlie
+PRINT FROM students 2 name age WHERE age < 8
+#PRINT FROM grades 2 student course WHERE course > hi
+PRINT FROM grades 2 student course WHERE student = bye
+PRINT FROM grades 2 student course WHERE student < hello
 GENERATE FOR grades bst INDEX ON course
-REMOVE grades
-DELETE FROM students WHERE name = Alice
-DELETE FROM students WHERE name = Charlie
+PRINT FROM students 2 age name WHERE name > Bob
+#PRINT FROM students 2 name age WHERE age = 10
+PRINT FROM students 2 name age WHERE age < 8
+PRINT FROM grades 2 student course WHERE student > hi
+PRINT FROM grades 2 student course WHERE student = bye
+PRINT FROM grades 2 student course WHERE course < hello
 INSERT INTO students 2 ROWS
-nasdcj 10
-ackjn 45
-PRINT FROM students 2 name age ALL
-# Checkpoint file 2: # (comment), CREATE, INSERT, PRINT ... ALL, REMOVE, QUIT
-CREATE cities 5 string string int double bool name state population area is_capital?
-INSERT INTO cities 7 ROWS
-Ann_Arbor Michigan 120782 28.69 false
-Lansing Michigan 116020 36.68 true
-Miami Florida 453579 55.25 false
-San_Francisco California 864816 46.87 false
-Albany New_York 98111 21.93 true
-Chicago Illinois 2705000 234 false
-St_Louis Missouri 315685 65.98 false
-PRINT FROM cities 2 name state ALL
-REMOVE cities
+Darcy 4
+Elise 12
+INSERT INTO grades 2 ROWS
+Fiona Zone
+Trent Gym
+PRINT FROM students 2 name age WHERE age > 21
+PRINT FROM students 2 name age WHERE age = 10
+PRINT FROM students 2 name age WHERE age < 8
+PRINT FROM grades 2 student course WHERE student > hi
+PRINT FROM grades 2 student course WHERE student = bye
+PRINT FROM grades 2 student course WHERE student < hello
+GENERATE FOR grades bst INDEX ON course
+PRINT FROM students 2 age name WHERE age > 21
+PRINT FROM students 2 name age WHERE age = 10
+PRINT FROM students 2 name age WHERE age < 8
+PRINT FROM grades 2 student course WHERE course > hi
+PRINT FROM grades 2 student course WHERE course = bye
+PRINT FROM grades 2 student course WHERE student < hello
+JOIN students AND grades WHERE name = student AND PRINT 3 name 1 course 2 age 1
+DELETE FROM students WHERE name = Alice
+DELETE FROM grades WHERE student = Alice
 QUIT

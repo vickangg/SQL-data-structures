@@ -1,45 +1,31 @@
-CREATE students 2 string int name age
-CREATE grades 2 string string student course
-INSERT INTO students 3 ROWS
-Alice 20
-Bob 22
-Charlie 21
-INSERT INTO grades 3 ROWS
-Alice Math
-Bob Physics
-Alice History
-GENERATE FOR students hash INDEX ON age
-PRINT FROM students 2 name age WHERE age > 21
-PRINT FROM students 2 name age WHERE name = Charlie
-PRINT FROM students 2 name age WHERE age < 8
-PRINT FROM grades 2 student course WHERE course > hi
-PRINT FROM grades 2 student course WHERE student = bye
-PRINT FROM grades 2 student course WHERE student < hello
-GENERATE FOR grades bst INDEX ON course
-PRINT FROM students 2 age name WHERE name > Bob
-PRINT FROM students 2 name age WHERE age = 10
-PRINT FROM students 2 name age WHERE age < 8
-PRINT FROM grades 2 student course WHERE student > hi
-PRINT FROM grades 2 student course WHERE student = bye
-PRINT FROM grades 2 student course WHERE course < hello
-INSERT INTO students 2 ROWS
-Darcy 4
-Elise 12
-INSERT INTO grades 2 ROWS
-Fiona Zone
-Trent Gym
-PRINT FROM students 2 name age WHERE age > 21
-PRINT FROM students 2 name age WHERE age = 10
-PRINT FROM students 2 name age WHERE age < 8
-PRINT FROM grades 2 student course WHERE student > hi
-PRINT FROM grades 2 student course WHERE student = bye
-PRINT FROM grades 2 student course WHERE student < hello
-GENERATE FOR grades bst INDEX ON course
-PRINT FROM students 2 age name WHERE age > 21
-PRINT FROM students 2 name age WHERE age = 10
-PRINT FROM students 2 name age WHERE age < 8
-PRINT FROM grades 2 student course WHERE course > hi
-PRINT FROM grades 2 student course WHERE course = bye
-PRINT FROM grades 2 student course WHERE student < hello
-JOIN students AND grades WHERE name = student AND PRINT 3 name 1 course 2 age 1
+CREATE cars 4 string bool int double vendor yes miles price
+INSERT INTO cars 7 ROWS
+ford true 5 3.5
+toyo false 7 1.5
+chevy true 1 6.5
+hyun true 2 6.99
+ford2 false 3 4.60
+toyo2 true 4 3.99
+chevy2 false 6 2.99
+INSERT INTO cars 8 ROWS
+ford3 true 5 3.5
+toyo3 false 7 1.5
+chevy3 true 1 6.5
+hyun3 true 2 6.99
+hyun2 false 3 4.60
+hyun4 true 4 3.99
+ford4 false 6 2.99
+ford5 true 7 3.99
+PRINT FROM cars 3 vendor price miles ALL
+PRINT FROM cars 2 price yes ALL
+DELETE FROM cars WHERE yes < true
+PRINT FROM cars 4 vendor price yes miles ALL
+PRINT FROM cars 4 vendor price yes miles WHERE yes = false
+REMOVE cars
+CREATE cars 4 string bool int double vendor yes miles price
+CREATE cars 4 string bool int double vendor yes miles price
+REMOVE nocars
+INSERT INTO nocars 3 ROWS
+PRINT FROM nocars 2 col1 col2 col3 ALL
+PRINT FROM cars 3 name rank yes ALL
 QUIT

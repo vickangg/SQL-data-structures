@@ -1,28 +1,27 @@
-#Awesome Spec Example Detailed!
-CREATE 281class 3 string string bool emotion person Y/N
-INSERT INTO 281class 8 ROWS
-happy Darden true
-stressed students false
-busy office_hours true
-stressed students true
-stressed Paoletti true
-happy Darden true
-happy Sith true
-victorious Sith true
-PRINT FROM 281class 3 emotion person Y/N ALL
-GENERATE FOR 281class hash INDEX ON person
-DELETE FROM 281class WHERE person = Darden
-PRINT FROM 281class 3 emotion person Y/N ALL
-GENERATE FOR 281class hash INDEX ON emotion
-PRINT FROM 281class 3 emotion person Y/N ALL
-PRINT FROM 281class 2 person emotion WHERE Y/N = true
-CREATE pets 3 string bool bool Name likes_cats? likes_dogs?
-INSERT INTO pets 2 ROWS
-Sith true true
-Paoletti true false
-PRINT FROM pets 3 Name likes_cats? likes_dogs? ALL
-PRINT FROM 281class 3 emotion person Y/N ALL
-JOIN pets AND 281class WHERE Name = person AND PRINT 3 Name 1 emotion 2 likes_dogs? 1
-REMOVE pets
-REMOVE 281class
+CREATE testing 2 string string again plus
+CREATE testing 5 string string double bool bool string1 str doub yes no
+INSERT INTO testing 2 ROWS
+hello hi
+goodbye bye
+DELETE from testing where please = goodbye
+PRINT from testing 1 blank WHERE again > journalism
+PRINT from testing 1 again WHERE nothing < just
+CREATE blank 4 string string string double string2 string3 hello second
+JOIN testing AND blank WHERE again = string2 AND PRINT 1 again 1
+JOIN testing AND blank WHERE boo = string2 AND PRINT 1 again 1
+CREATE huuuuh 1 string blah
+REMOVE nonexistent
+REMOVE nothinghere
+INSERT INTO notathing 7 ROWS
+INSERT INTO justkid 10 ROWS
+PRINT FROM gone 2 time tick WHERE time > 10
+PRINT FROM gone 2 time tick ALL
+PRINT FROM gone 3 time tick tock ALL
+REMOVE government
+INSERT INTO small 5 ROWS
+DELETE FROM academic WHERE ice < 5
+DELETE FROM machine WHERE rabbit = pace
+DELETE FROM nail WHERE nice > 100
+JOIN habit AND trace WHERE one = two AND PRINT 1 col 2
+JOIN reaction and trace WHERE blue = blue AND PRINT 2 col 2 col 1
 QUIT
